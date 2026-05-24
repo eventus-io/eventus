@@ -6,7 +6,7 @@
 
   <parent>
     <groupId>io.eventus</groupId>
-    <artifactId>eventus-parent</artifactId>
+    <artifactId>eventus</artifactId>
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 

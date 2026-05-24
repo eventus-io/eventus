@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.eventus</groupId>
-  <artifactId>eventus-parent</artifactId>
+  <artifactId>eventus</artifactId>
   <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Eventus Parent</name>
+  <name>Eventus</name>
   <description>Event topology, made visible.</description>
   <url>https://github.com/RafMaia92/eventus</url>
 

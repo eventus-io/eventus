@@ -6,7 +6,7 @@
 
   <parent>
     <groupId>io.eventus</groupId>
-    <artifactId>eventus-parent</artifactId>
+    <artifactId>eventus</artifactId>
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
@@ -18,6 +18,16 @@
     <dependency>
       <groupId>io.eventus</groupId>
       <artifactId>eventus-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
