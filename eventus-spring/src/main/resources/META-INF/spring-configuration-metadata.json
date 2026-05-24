@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "eventus.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable Eventus graph extraction and actuator endpoints. Default: true.",
+      "defaultValue": true
+    },
+    {
+      "name": "eventus.publications.stale-threshold",
+      "type": "java.time.Duration",
+      "description": "Duration after which an incomplete event publication is considered stale. Default: PT2H.",
+      "defaultValue": "PT2H"
+    }
+  ]
+}
