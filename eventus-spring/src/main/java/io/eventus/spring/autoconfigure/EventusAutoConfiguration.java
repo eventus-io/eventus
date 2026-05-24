@@ -2,6 +2,8 @@ package io.eventus.spring.autoconfigure;
 
 import io.eventus.core.GraphReader;
 import io.eventus.core.GraphWriter;
+import io.eventus.core.impact.ImpactAnalyzer;
+import io.eventus.core.impact.InMemoryImpactAnalyzer;
 import io.eventus.core.memory.InMemoryGraph;
 import io.eventus.core.memory.InMemoryGraphReader;
 import io.eventus.core.memory.InMemoryGraphWriter;
@@ -9,6 +11,7 @@ import io.eventus.spring.SpringModulithExtractor;
 import io.eventus.spring.actuator.EventusEventsEndpoint;
 import io.eventus.spring.actuator.EventusModulesEndpoint;
 import io.eventus.spring.actuator.EventusPublicationsEndpoint;
+import io.eventus.spring.impact.ImpactAnalysisController;
 import io.eventus.spring.ui.EventusUIApiController;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -74,6 +77,18 @@ public class EventusAutoConfiguration {
     @ConditionalOnMissingBean(name = "eventusPublicationsEndpoint")
     public EventusPublicationsEndpoint eventusPublicationsEndpoint(GraphReader reader) {
         return new EventusPublicationsEndpoint(reader);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ImpactAnalyzer impactAnalyzer(GraphReader reader) {
+        return new InMemoryImpactAnalyzer(reader);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ImpactAnalysisController impactAnalysisController(ImpactAnalyzer analyzer) {
+        return new ImpactAnalysisController(analyzer);
     }
 
     @Bean
