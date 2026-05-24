@@ -9,7 +9,7 @@ import io.eventus.core.model.GraphModel;
 public class EmptyExtractor implements EventGraphExtractor {
 
     @Override
-    public void extract(GraphModel model) {
-        // intentional no-op
+    public GraphModel extract() {
+        return new GraphModel();
     }
 }
