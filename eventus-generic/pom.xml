@@ -12,12 +12,22 @@
 
   <artifactId>eventus-generic</artifactId>
   <name>Eventus Generic</name>
-  <description>Generic stub extractor — annotation-based extractor coming in v0.3.</description>
+  <description>Annotation-based event graph extractor for plain JVM applications without Spring Modulith</description>
 
   <dependencies>
     <dependency>
       <groupId>io.eventus</groupId>
       <artifactId>eventus-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.classgraph</groupId>
+      <artifactId>classgraph</artifactId>
+      <version>4.8.174</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
