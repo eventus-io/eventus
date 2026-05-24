@@ -9,6 +9,7 @@ import io.eventus.spring.SpringModulithExtractor;
 import io.eventus.spring.actuator.EventusEventsEndpoint;
 import io.eventus.spring.actuator.EventusModulesEndpoint;
 import io.eventus.spring.actuator.EventusPublicationsEndpoint;
+import io.eventus.spring.ui.EventusUIApiController;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -73,6 +74,12 @@ public class EventusAutoConfiguration {
     @ConditionalOnMissingBean(name = "eventusPublicationsEndpoint")
     public EventusPublicationsEndpoint eventusPublicationsEndpoint(GraphReader reader) {
         return new EventusPublicationsEndpoint(reader);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public EventusUIApiController eventusUIApiController(GraphReader reader) {
+        return new EventusUIApiController(reader);
     }
 
     @Bean

@@ -5,6 +5,7 @@ import io.eventus.core.memory.InMemoryGraphWriter;
 import io.eventus.spring.actuator.EventusEventsEndpoint;
 import io.eventus.spring.actuator.EventusModulesEndpoint;
 import io.eventus.spring.actuator.EventusPublicationsEndpoint;
+import io.eventus.spring.ui.EventusUIApiController;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener;
@@ -25,6 +26,7 @@ class EventusAutoConfigurationTest {
             assertThat(ctx).hasSingleBean(EventusModulesEndpoint.class);
             assertThat(ctx).hasSingleBean(EventusEventsEndpoint.class);
             assertThat(ctx).hasSingleBean(EventusPublicationsEndpoint.class);
+            assertThat(ctx).hasSingleBean(EventusUIApiController.class);
         });
     }
 
