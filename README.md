@@ -2,7 +2,8 @@
 
 **Event topology, made visible.**
 
-[![Build](https://github.com/eventus-io/eventus/actions/workflows/build.yml/badge.svg)](https://github.com/eventus-io/eventus/actions/workflows/build.yml)
+[![Build](https://github.com/RafMaia92/eventus/actions/workflows/build.yml/badge.svg)](https://github.com/RafMaia92/eventus/actions/workflows/build.yml)
+[![Modulith Compatibility](https://github.com/RafMaia92/eventus/actions/workflows/compatibility.yml/badge.svg)](https://github.com/RafMaia92/eventus/actions/workflows/compatibility.yml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 
 Eventus extracts the event and module topology from your JVM application,
@@ -88,6 +89,17 @@ curl http://localhost:8080/actuator/eventus-publications
 |------------------------------------------|----------|--------------------------------------------------|
 | `eventus.enabled`                        | `true`   | Enable/disable Eventus entirely                  |
 | `eventus.publications.stale-threshold`   | `PT2H`   | Duration before an incomplete publication is stale |
+
+---
+
+## Compatibility
+
+| Eventus | Spring Modulith | Spring Boot |
+|---------|-----------------|-------------|
+| 0.1.x   | 1.2.x, 1.3.x    | 3.2.x, 3.4.x |
+| 1.0.x   | 1.3.x, 2.0.x    | 3.3.x, 3.4.x |
+
+The matrix is verified automatically on every push via `compatibility.yml`.
 
 ---
 
