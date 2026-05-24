@@ -4,6 +4,8 @@ import io.eventus.core.GraphReader;
 import io.eventus.core.GraphWriter;
 import io.eventus.core.impact.ImpactAnalyzer;
 import io.eventus.core.impact.InMemoryImpactAnalyzer;
+import io.eventus.core.violations.InMemoryViolationAnalyzer;
+import io.eventus.core.violations.ViolationAnalyzer;
 import io.eventus.core.memory.InMemoryGraph;
 import io.eventus.core.memory.InMemoryGraphReader;
 import io.eventus.core.memory.InMemoryGraphWriter;
@@ -12,6 +14,7 @@ import io.eventus.spring.actuator.EventusEventsEndpoint;
 import io.eventus.spring.actuator.EventusModulesEndpoint;
 import io.eventus.spring.actuator.EventusPublicationsEndpoint;
 import io.eventus.spring.impact.ImpactAnalysisController;
+import io.eventus.spring.violations.ViolationsController;
 import io.eventus.spring.metrics.EventusMetricsCollector;
 import io.eventus.spring.ui.EventusUIApiController;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -100,6 +103,18 @@ public class EventusAutoConfiguration {
     @ConditionalOnMissingBean
     public ImpactAnalysisController impactAnalysisController(ImpactAnalyzer analyzer) {
         return new ImpactAnalysisController(analyzer);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ViolationAnalyzer violationAnalyzer(GraphReader reader) {
+        return new InMemoryViolationAnalyzer(reader);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ViolationsController violationsController(ViolationAnalyzer analyzer) {
+        return new ViolationsController(analyzer);
     }
 
     @Bean
