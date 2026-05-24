@@ -55,6 +55,7 @@
     <module>eventus-streams</module>
     <module>eventus-mcp</module>
     <module>eventus-ui</module>
+    <module>eventus-neo4j</module>
   </modules>
 
   <properties>
