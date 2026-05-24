@@ -58,6 +58,13 @@
       <optional>true</optional>
     </dependency>
 
+    <!-- Micrometer Prometheus (optional — host app adds prometheus registry) -->
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+      <optional>true</optional>
+    </dependency>
+
     <!-- Test -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

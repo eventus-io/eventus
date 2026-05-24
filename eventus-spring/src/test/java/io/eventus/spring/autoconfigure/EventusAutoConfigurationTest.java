@@ -5,7 +5,9 @@ import io.eventus.core.memory.InMemoryGraphWriter;
 import io.eventus.spring.actuator.EventusEventsEndpoint;
 import io.eventus.spring.actuator.EventusModulesEndpoint;
 import io.eventus.spring.actuator.EventusPublicationsEndpoint;
+import io.eventus.spring.metrics.EventusMetricsCollector;
 import io.eventus.spring.ui.EventusUIApiController;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener;
@@ -16,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class EventusAutoConfigurationTest {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
+            .withBean(SimpleMeterRegistry.class)
             .withConfiguration(AutoConfigurations.of(EventusAutoConfiguration.class));
 
     @Test
@@ -27,6 +30,7 @@ class EventusAutoConfigurationTest {
             assertThat(ctx).hasSingleBean(EventusEventsEndpoint.class);
             assertThat(ctx).hasSingleBean(EventusPublicationsEndpoint.class);
             assertThat(ctx).hasSingleBean(EventusUIApiController.class);
+            assertThat(ctx).hasSingleBean(EventusMetricsCollector.class);
         });
     }
 

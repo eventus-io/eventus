@@ -1,0 +1,126 @@
+{
+  "dashboard": {
+    "title": "Eventus — Event Topology",
+    "description": "Monitor event-driven application health, module status, and publication reliability",
+    "tags": ["eventus", "spring-modulith", "events"],
+    "timezone": "browser",
+    "refresh": "30s",
+    "schemaVersion": 36,
+    "panels": [
+      {
+        "id": 1,
+        "title": "Modules — Total",
+        "type": "stat",
+        "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+        "targets": [
+          { "expr": "eventus_modules_total", "legendFormat": "Modules" }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [{ "color": "green", "value": null }]
+            }
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "Events — Total",
+        "type": "stat",
+        "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
+        "targets": [
+          { "expr": "eventus_events_total", "legendFormat": "Events" }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [{ "color": "blue", "value": null }]
+            }
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Stale Publications",
+        "type": "stat",
+        "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
+        "targets": [
+          { "expr": "eventus_publications_stale", "legendFormat": "Stale" }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "green", "value": null },
+                { "color": "yellow", "value": 1 },
+                { "color": "red", "value": 5 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "Incomplete Publications",
+        "type": "stat",
+        "gridPos": { "x": 12, "y": 0, "w": 4, "h": 4 },
+        "targets": [
+          { "expr": "eventus_publications_incomplete", "legendFormat": "Incomplete" }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "green", "value": null },
+                { "color": "orange", "value": 1 }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 5,
+        "title": "Module Health",
+        "type": "piechart",
+        "gridPos": { "x": 0, "y": 4, "w": 8, "h": 8 },
+        "targets": [
+          { "expr": "eventus_modules_healthy", "legendFormat": "Healthy" },
+          { "expr": "eventus_modules_warning", "legendFormat": "Warning" },
+          { "expr": "eventus_modules_error", "legendFormat": "Error" }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" }
+          },
+          "overrides": [
+            { "matcher": { "id": "byName", "options": "Healthy" }, "properties": [{ "id": "color", "value": { "fixedColor": "#10b981", "mode": "fixed" } }] },
+            { "matcher": { "id": "byName", "options": "Warning" }, "properties": [{ "id": "color", "value": { "fixedColor": "#f59e0b", "mode": "fixed" } }] },
+            { "matcher": { "id": "byName", "options": "Error"   }, "properties": [{ "id": "color", "value": { "fixedColor": "#ef4444", "mode": "fixed" } }] }
+          ]
+        }
+      },
+      {
+        "id": 6,
+        "title": "Publication Status",
+        "type": "bargauge",
+        "gridPos": { "x": 8, "y": 4, "w": 8, "h": 8 },
+        "targets": [
+          { "expr": "eventus_publications_completed",  "legendFormat": "Completed"  },
+          { "expr": "eventus_publications_incomplete", "legendFormat": "Incomplete" },
+          { "expr": "eventus_publications_stale",      "legendFormat": "Stale"      }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": { "orientation": "horizontal" }
+          }
+        }
+      }
+    ]
+  }
+}

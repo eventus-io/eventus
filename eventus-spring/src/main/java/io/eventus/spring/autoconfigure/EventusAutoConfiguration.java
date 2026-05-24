@@ -12,8 +12,12 @@ import io.eventus.spring.actuator.EventusEventsEndpoint;
 import io.eventus.spring.actuator.EventusModulesEndpoint;
 import io.eventus.spring.actuator.EventusPublicationsEndpoint;
 import io.eventus.spring.impact.ImpactAnalysisController;
+import io.eventus.spring.metrics.EventusMetricsCollector;
 import io.eventus.spring.ui.EventusUIApiController;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -25,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.modulith.core.ApplicationModules;
 
 @AutoConfiguration
+@AutoConfigureAfter(name = "org.springframework.boot.actuate.autoconfigure.metrics.MetricsAutoConfiguration")
 @ConditionalOnClass(ApplicationModules.class)
 @ConditionalOnProperty(prefix = "eventus", name = "enabled", matchIfMissing = true)
 @EnableConfigurationProperties(EventusProperties.class)
@@ -77,6 +82,12 @@ public class EventusAutoConfiguration {
     @ConditionalOnMissingBean(name = "eventusPublicationsEndpoint")
     public EventusPublicationsEndpoint eventusPublicationsEndpoint(GraphReader reader) {
         return new EventusPublicationsEndpoint(reader);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public EventusMetricsCollector eventusMetricsCollector(MeterRegistry meterRegistry, GraphReader reader) {
+        return new EventusMetricsCollector(meterRegistry, reader);
     }
 
     @Bean
