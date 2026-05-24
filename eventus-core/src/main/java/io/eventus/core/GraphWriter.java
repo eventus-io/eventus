@@ -1,12 +1,8 @@
 package io.eventus.core;
 
-import io.eventus.core.model.EventEdge;
-import io.eventus.core.model.EventNode;
-import io.eventus.core.model.ModuleNode;
+import io.eventus.core.model.GraphModel;
 
 public interface GraphWriter {
-    void writeModule(ModuleNode node);
-    void writeEvent(EventNode node);
-    void writeEdge(EventEdge edge);
+    void write(GraphModel model);
     void clear();
 }

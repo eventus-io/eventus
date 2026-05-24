@@ -5,7 +5,5 @@ public record ModuleNode(
         String name,
         int beanCount,
         int aggregateCount,
-        Status status
-) {
-    public enum Status { HEALTHY, WARNING, ERROR }
-}
+        ModuleStatus status
+) {}

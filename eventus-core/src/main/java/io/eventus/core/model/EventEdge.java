@@ -6,6 +6,4 @@ public record EventEdge(
         String fromModuleId,
         String toModuleId,
         EdgeType edgeType
-) {
-    public enum EdgeType { PUBLISHES, LISTENS_TO }
-}
+) {}
