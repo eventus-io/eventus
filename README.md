@@ -103,6 +103,39 @@ curl http://localhost:8080/actuator/eventus-publications
 
 ---
 
+## Releasing to Maven Central
+
+### Required GitHub secrets
+
+| Secret | How to obtain |
+|---|---|
+| `GPG_PRIVATE_KEY` | `gpg --export-secret-keys --armor <KEY_ID>` |
+| `GPG_PASSPHRASE` | Passphrase for the GPG key |
+| `OSSRH_USERNAME` | Sonatype OSSRH username or user token |
+| `OSSRH_TOKEN` | Sonatype OSSRH password or token |
+
+### Triggering a release
+
+```bash
+# Bump versions
+mvn versions:set -DnewVersion=0.2.0
+git add -A && git commit -m "chore: release 0.2.0"
+git tag v0.2.0
+git push origin main --tags
+```
+
+The `release.yml` workflow picks up the tag, signs all artifacts with GPG,
+and deploys to Maven Central automatically via the Nexus staging plugin.
+
+### One-time setup
+
+1. Register a Sonatype OSSRH account at `issues.sonatype.org`
+2. Open a ticket to claim group ID `io.eventus` pointing to `github.com/RafMaia92/eventus`
+3. Generate a user token in the OSSRH Nexus UI and store it as GitHub secrets
+4. Upload your GPG public key: `gpg --keyserver keyserver.ubuntu.com --send-keys <KEY_ID>`
+
+---
+
 ## Contributing
 
 See [CONTRIBUTING.md](.github/CONTRIBUTING.md).
