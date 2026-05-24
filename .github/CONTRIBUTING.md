@@ -1,35 +1,36 @@
 # Contributing to Eventus
 
-Thank you for your interest in contributing!
+## Build
 
-## Running the tests
+Requires Java 21 and Maven 3.9+.
+
+```bash
+mvn clean install
+```
+
+## Test
 
 ```bash
 mvn verify
 ```
 
-This builds all modules and runs unit and integration tests.
+Run a single module:
+```bash
+mvn verify -pl eventus-spring
+```
 
-## Pull request guidelines
+## Commit Format
 
-- One feature or fix per PR — keep the scope small and reviewable.
-- Write a clear PR description explaining *why* the change is needed.
-- All tests must pass (`mvn verify`) before requesting review.
-- Follow the existing code style (no trailing whitespace, standard Java formatting).
-- Use conventional commits for your commit messages:
-  - `feat:` new feature
-  - `fix:` bug fix
-  - `docs:` documentation only
-  - `refactor:` code change that neither fixes a bug nor adds a feature
-  - `test:` adding or correcting tests
+Use conventional commits:
+- `feat:` new feature
+- `fix:` bug fix
+- `test:` test additions or corrections
+- `docs:` documentation only
+- `chore:` build, CI, tooling
 
-## Code style
+## Pull Requests
 
-- Java 21, records preferred for value objects
-- No Lombok
-- Minimal comments — code should be self-explanatory
-- Prefer immutable data structures
-
-## Reporting bugs
-
-Open a GitHub issue with a minimal reproducible example.
+- One logical change per PR
+- All tests must pass
+- Update README if adding a public API or configuration property
+- Reference the relevant story number in the PR description (e.g. `S04`)

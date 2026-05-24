@@ -21,4 +21,11 @@ jobs:
           cache: maven
 
       - name: Build and test
-        run: mvn --batch-mode verify
+        run: mvn verify --batch-mode --no-transfer-progress
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: '**/target/surefire-reports/*.xml'

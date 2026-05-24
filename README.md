@@ -2,28 +2,29 @@
 
 **Event topology, made visible.**
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Build](https://github.com/RafMaia92/eventus/actions/workflows/build.yml/badge.svg)](https://github.com/RafMaia92/eventus/actions/workflows/build.yml)
+[![Build](https://github.com/eventus-io/eventus/actions/workflows/build.yml/badge.svg)](https://github.com/eventus-io/eventus/actions/workflows/build.yml)
+[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 
-Eventus is a zero-configuration library that extracts the event topology of your application and exposes it as actuator endpoints. Drop in the dependency, start your app, and immediately see which modules publish which events and which modules listen to them — without writing a single line of configuration.
-
-Built with Spring Modulith in mind, designed for the full JVM ecosystem.
-
----
-
-## Module structure
-
-| Module | Description |
-|---|---|
-| `eventus-core` | Framework-free interfaces (`EventGraphExtractor`, `GraphWriter`) and value objects (`GraphModel`, `ModuleNode`, `EventNode`, `EventEdge`) plus in-memory implementations |
-| `eventus-spring` | Spring Modulith extractor + Spring Boot Actuator endpoints (`/actuator/eventus/modules`, `/actuator/eventus/events`, `/actuator/eventus/publications`) |
-| `eventus-generic` | Stub extractor for non-Spring apps — annotation-based extraction coming in v0.3 |
+Eventus extracts the event and module topology from your JVM application,
+materialises it as a live knowledge graph, and exposes it through Spring Boot
+Actuator endpoints. Start with Spring Modulith — expand to Kafka, Axon, and
+plain JVM applications as your needs grow.
 
 ---
 
-## Quick start
+## Modules
 
-Add the dependency to your Spring Boot + Spring Modulith application:
+| Module             | Description                                              |
+|--------------------|----------------------------------------------------------|
+| `eventus-core`     | Framework-agnostic interfaces and in-memory backend      |
+| `eventus-spring`   | Spring Modulith extractor + actuator endpoints           |
+| `eventus-generic`  | Annotation-based extractor for plain JVM apps (v0.3)    |
+
+---
+
+## Quick Start
+
+Add to your Spring Modulith project:
 
 ```xml
 <dependency>
@@ -33,48 +34,83 @@ Add the dependency to your Spring Boot + Spring Modulith application:
 </dependency>
 ```
 
-Expose the endpoint in `application.properties`:
+Expose the endpoints in `application.properties`:
 
 ```properties
-management.endpoints.web.exposure.include=health,info,eventus
-management.endpoint.eventus.enabled=true
+management.endpoints.web.exposure.include=health,info,eventus-modules,eventus-events,eventus-publications
+```
+
+Start your application and query:
+
+```bash
+# All modules with health status
+curl http://localhost:8080/actuator/eventus-modules
+
+# All domain events with publisher info
+curl http://localhost:8080/actuator/eventus-events
+
+# Incomplete and stale event publications
+curl http://localhost:8080/actuator/eventus-publications
 ```
 
 ---
 
-## How it works
+## Endpoints
 
-1. **Add the dependency** — Eventus auto-configures itself via Spring Boot's auto-configuration mechanism.
-2. **Start your app** — On `ApplicationReadyEvent`, Eventus walks your Spring Modulith module graph and records every module, published event, and listener relationship.
-3. **Hit the endpoints** — Query the actuator endpoints to explore your event topology:
+| Endpoint                                 | Description                                |
+|------------------------------------------|--------------------------------------------|
+| `GET /actuator/eventus-modules`          | All modules with status and bean count     |
+| `GET /actuator/eventus-events`           | All domain events with publisher info      |
+| `GET /actuator/eventus-publications`     | Incomplete and stale event publications    |
 
-```bash
-# List all modules with health status
-curl http://localhost:8080/actuator/eventus/modules
+### Example: `/actuator/eventus-modules`
 
-# List all event types
-curl http://localhost:8080/actuator/eventus/events
-
-# List incomplete/stale event publications (requires Spring Modulith Events)
-curl http://localhost:8080/actuator/eventus/publications
+```json
+[
+  { "id": "order", "name": "Order", "beanCount": 4, "aggregateCount": 1, "status": "HEALTHY" },
+  { "id": "inventory", "name": "Inventory", "beanCount": 2, "aggregateCount": 0, "status": "HEALTHY" }
+]
 ```
+
+### Example: `/actuator/eventus-events`
+
+```json
+[
+  { "id": "com.example.order.OrderPlaced", "name": "OrderPlaced", "publisherModuleId": "order" }
+]
+```
+
+---
+
+## Configuration
+
+| Property                                 | Default  | Description                                      |
+|------------------------------------------|----------|--------------------------------------------------|
+| `eventus.enabled`                        | `true`   | Enable/disable Eventus entirely                  |
+| `eventus.publications.stale-threshold`   | `PT2H`   | Duration before an incomplete publication is stale |
 
 ---
 
 ## Roadmap
 
-| Version | Scope |
-|---|---|
-| **v0.1** | Spring Modulith extractor, in-memory graph, actuator endpoints |
-| **v0.2** | Neo4j `GraphWriter` — persist topology for querying and visualization |
-| **v0.3** | `eventus-generic` annotation-based extractor (`@EventPublisher`, `@EventListener`) for non-Modulith Spring apps |
-| **v0.4** | MCP server — expose event graph as an AI-readable tool for IDE assistants |
-| **v0.5** | Kafka extractor — derive topology from consumer group metadata |
-| **v0.6** | Axon Framework extractor — aggregate + saga event mapping |
-| **v1.0** | Stable API, dashboards, multi-service federation |
+| Version | Scope                                                               |
+|---------|---------------------------------------------------------------------|
+| v0.1    | Core interfaces + Spring Modulith extractor + actuator endpoints    |
+| v0.2    | Embedded React UI (module graph view + publication log)             |
+| v0.3    | Grafana dashboard + Micrometer metrics + Kafka extractor            |
+| v0.4    | Impact analysis API + violation detection + drift detection         |
+| v1.0    | MCP server + LLM query panel + Axon + generic extractors            |
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md).
+
+Built with Spring Modulith in mind, designed for the full JVM ecosystem.
 
 ---
 
 ## License
 
-Apache License 2.0 — see [LICENSE](LICENSE).
+Apache 2.0 — see [LICENSE](LICENSE).
