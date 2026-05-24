@@ -2,6 +2,9 @@ package io.eventus.spring.autoconfigure;
 
 import io.eventus.core.GraphReader;
 import io.eventus.core.GraphWriter;
+import io.eventus.core.drift.BaselineManager;
+import io.eventus.core.drift.DriftAnalyzer;
+import io.eventus.core.drift.InMemoryDriftAnalyzer;
 import io.eventus.core.impact.ImpactAnalyzer;
 import io.eventus.core.impact.InMemoryImpactAnalyzer;
 import io.eventus.core.violations.InMemoryViolationAnalyzer;
@@ -13,6 +16,8 @@ import io.eventus.spring.SpringModulithExtractor;
 import io.eventus.spring.actuator.EventusEventsEndpoint;
 import io.eventus.spring.actuator.EventusModulesEndpoint;
 import io.eventus.spring.actuator.EventusPublicationsEndpoint;
+import io.eventus.spring.drift.DriftController;
+import io.eventus.spring.drift.FileSystemBaselineManager;
 import io.eventus.spring.impact.ImpactAnalysisController;
 import io.eventus.spring.violations.ViolationsController;
 import io.eventus.spring.metrics.EventusMetricsCollector;
@@ -103,6 +108,25 @@ public class EventusAutoConfiguration {
     @ConditionalOnMissingBean
     public ImpactAnalysisController impactAnalysisController(ImpactAnalyzer analyzer) {
         return new ImpactAnalysisController(analyzer);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public BaselineManager baselineManager() {
+        java.nio.file.Path baselineDir = java.nio.file.Paths.get(System.getProperty("user.dir"), ".eventus");
+        return new FileSystemBaselineManager(baselineDir);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public DriftAnalyzer driftAnalyzer(GraphReader reader, BaselineManager baselineManager) {
+        return new InMemoryDriftAnalyzer(reader, baselineManager);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public DriftController driftController(DriftAnalyzer driftAnalyzer, BaselineManager baselineManager, GraphReader reader) {
+        return new DriftController(driftAnalyzer, baselineManager, reader);
     }
 
     @Bean

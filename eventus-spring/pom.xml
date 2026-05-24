@@ -58,6 +58,16 @@
       <optional>true</optional>
     </dependency>
 
+    <!-- Jackson (for FileSystemBaselineManager; version managed by spring-boot-dependencies) -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+
     <!-- Micrometer Prometheus (optional — host app adds prometheus registry) -->
     <dependency>
       <groupId>io.micrometer</groupId>

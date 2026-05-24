@@ -183,6 +183,41 @@ body {
     letter-spacing: 0.3px;
 }
 
+/* Canvas */
+
+.canvas-wrap {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: #f9fafb;
+}
+
+/* Event pills */
+
+.detail-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.event-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.event-pill.pub {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.event-pill.sub {
+    background: #d1fae5;
+    color: #065f46;
+}
+
 /* Animations */
 
 @keyframes spin {
