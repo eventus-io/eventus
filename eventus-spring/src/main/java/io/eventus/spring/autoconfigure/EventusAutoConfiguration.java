@@ -54,7 +54,7 @@ public class EventusAutoConfiguration {
     @ConditionalOnMissingBean
     public SpringModulithExtractor springModulithExtractor(ApplicationContext ctx) {
         Class<?> mainClass = detectMainClass(ctx);
-        return new SpringModulithExtractor(mainClass);
+        return new SpringModulithExtractor(mainClass, ctx);
     }
 
     @Bean
