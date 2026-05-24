@@ -32,3 +32,12 @@ buildNumber.properties
 # OS
 .DS_Store
 Thumbs.db
+
+# Frontend
+node_modules/
+node/
+dist/
+.vite/
+
+# Eventus runtime data
+.eventus/

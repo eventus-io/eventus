@@ -1,0 +1,2 @@
+io.eventus.ui.autoconfigure.EventusUiAutoConfiguration
+io.eventus.ui.autoconfigure.EventusChatAutoConfiguration
