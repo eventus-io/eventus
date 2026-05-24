@@ -1,0 +1,2 @@
+io.eventus.mcp.autoconfigure.EventusMcpAutoConfiguration
+io.eventus.mcp.security.EventusMcpSecurityAutoConfiguration

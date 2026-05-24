@@ -1,0 +1,22 @@
+{
+  "properties": [
+    {
+      "name": "eventus.mcp.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable the Eventus MCP server. Default: true.",
+      "defaultValue": true
+    },
+    {
+      "name": "eventus.mcp.server-name",
+      "type": "java.lang.String",
+      "description": "MCP server name reported to clients.",
+      "defaultValue": "eventus"
+    },
+    {
+      "name": "eventus.mcp.server-version",
+      "type": "java.lang.String",
+      "description": "MCP server version reported to clients.",
+      "defaultValue": "1.0.0"
+    }
+  ]
+}
