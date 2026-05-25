@@ -1,0 +1,51 @@
+/* Eventus design tokens — copied from docs/brand/tokens.css */
+
+:root {
+  --eventus-accent:        oklch(72% 0.18 300);
+  --eventus-accent-hover:  oklch(78% 0.18 300);
+  --eventus-accent-dim:    oklch(45% 0.14 300);
+  --eventus-accent-ink:    #0a0a0a;
+
+  --eventus-violet-100: oklch(95%  0.035 300);
+  --eventus-violet-200: oklch(90%  0.075 300);
+  --eventus-violet-300: oklch(82%  0.13  300);
+  --eventus-violet-400: oklch(75%  0.17  300);
+  --eventus-violet-500: oklch(70%  0.20  300);
+  --eventus-violet-600: oklch(62%  0.22  300);
+  --eventus-violet-700: oklch(52%  0.20  300);
+  --eventus-violet-800: oklch(40%  0.16  300);
+  --eventus-violet-900: oklch(28%  0.10  300);
+
+  --eventus-bg:            #0a0a0a;
+  --eventus-bg-subtle:     #111111;
+  --eventus-bg-raised:     #171717;
+  --eventus-bg-inset:      #080808;
+  --eventus-border:        #262626;
+  --eventus-border-strong: #3a3a3a;
+
+  --eventus-fg:        #ededed;
+  --eventus-fg-mute:   #a3a3a3;
+  --eventus-fg-dim:    #666666;
+  --eventus-fg-faint:  #3f3f3f;
+
+  --eventus-success:  oklch(72% 0.18 145);
+  --eventus-warn:     oklch(78% 0.16 75);
+  --eventus-danger:   oklch(68% 0.20 25);
+  --eventus-info:     oklch(72% 0.14 230);
+
+  --eventus-font-sans: "Geist", "Geist Sans", system-ui, -apple-system, sans-serif;
+  --eventus-font-mono: "Geist Mono", ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+
+  --eventus-radius-sm: 4px;
+  --eventus-radius-md: 6px;
+  --eventus-radius-lg: 8px;
+  --eventus-radius-xl: 12px;
+
+  --eventus-node-module-fill:    var(--eventus-bg-raised);
+  --eventus-node-event-fill:     var(--eventus-accent);
+  --eventus-node-stroke-healthy: var(--eventus-success);
+  --eventus-node-stroke-stale:   var(--eventus-warn);
+  --eventus-node-stroke-broken:  var(--eventus-danger);
+  --eventus-edge-publish:        var(--eventus-accent);
+  --eventus-edge-subscribe:      var(--eventus-info);
+}
