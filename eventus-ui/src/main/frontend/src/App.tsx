@@ -1,16 +1,22 @@
 import { useState, useMemo, useEffect } from 'react';
-import type { Selection } from './types';
+import type { Selection, ActiveView } from './types';
 import { useTopology } from './hooks/useTopology';
 import { useRichEvents, useCanvasEdges } from './hooks/useEdges';
 import { computeLayout } from './layout';
 import { TopBar } from './components/TopBar';
+import { NavTabs } from './components/NavTabs';
 import { Sidebar } from './components/Sidebar';
 import { Canvas } from './components/Canvas';
 import { Inspector } from './components/Inspector';
+import { ImpactView } from './components/views/ImpactView';
+import { ViolationsView } from './components/views/ViolationsView';
+import { DriftView } from './components/views/DriftView';
+import { PublicationsView } from './components/views/PublicationsView';
 
 function lc(s: string) { return s.toLowerCase(); }
 
 export function App() {
+  const [activeView, setActiveView] = useState<ActiveView>('graph');
   const [filter, setFilter] = useState('');
   const [selected, setSelected] = useState<Selection | null>(null);
   const [hovered, setHovered] = useState<Selection | null>(null);
@@ -59,37 +65,59 @@ export function App() {
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
       <TopBar refreshKey={refreshKey} onRefresh={refresh} />
+      <NavTabs
+        active={activeView}
+        onChange={v => { setActiveView(v); setSelected(null); }}
+        incompleteCount={incompleteCount}
+        violationCount={0}
+        driftBreachCount={0}
+      />
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-        <Sidebar
-          filter={filter}
-          setFilter={setFilter}
-          selected={selected}
-          setSelected={setSelected}
-          modules={visibleModules}
-          richEvents={visibleEvents}
-          publications={data?.publications ?? []}
-        />
-        <Canvas
-          modules={data?.modules ?? []}
-          richEvents={richEvents}
-          edges={canvasEdges}
-          layout={layout}
-          visibleModuleIds={visibleModuleIds}
-          visibleEventIds={visibleEventIds}
-          selected={selected}
-          hovered={hovered}
-          setSelected={setSelected}
-          setHovered={setHovered}
-          totalModules={data?.modules.length ?? 0}
-          totalEvents={richEvents.length}
-          incompleteCount={incompleteCount}
-        />
-        <Inspector
-          selected={selected}
-          setSelected={setSelected}
-          modules={data?.modules ?? []}
-          richEvents={richEvents}
-        />
+        {activeView === 'graph' && (
+          <>
+            <Sidebar
+              filter={filter}
+              setFilter={setFilter}
+              selected={selected}
+              setSelected={setSelected}
+              modules={visibleModules}
+              richEvents={visibleEvents}
+              publications={data?.publications ?? []}
+            />
+            <Canvas
+              modules={data?.modules ?? []}
+              richEvents={richEvents}
+              edges={canvasEdges}
+              layout={layout}
+              visibleModuleIds={visibleModuleIds}
+              visibleEventIds={visibleEventIds}
+              selected={selected}
+              hovered={hovered}
+              setSelected={setSelected}
+              setHovered={setHovered}
+              totalModules={data?.modules.length ?? 0}
+              totalEvents={richEvents.length}
+              incompleteCount={incompleteCount}
+            />
+            <Inspector
+              selected={selected}
+              setSelected={setSelected}
+              modules={data?.modules ?? []}
+              richEvents={richEvents}
+            />
+          </>
+        )}
+        {activeView === 'impact' && (
+          <ImpactView
+            modules={data?.modules ?? []}
+            richEvents={richEvents}
+          />
+        )}
+        {activeView === 'violations' && <ViolationsView />}
+        {activeView === 'drift' && <DriftView />}
+        {activeView === 'publications' && (
+          <PublicationsView publications={data?.publications ?? []} />
+        )}
       </div>
     </div>
   );

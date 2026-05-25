@@ -3,6 +3,9 @@
 export type ModuleStatus = 'HEALTHY' | 'WARNING' | 'ERROR';
 export type EdgeType = 'PUBLISHES' | 'LISTENS_TO' | 'DEPENDS_ON';
 export type PublicationStatus = 'COMPLETED' | 'INCOMPLETE' | 'STALE';
+export type ViolationSeverity = 'ERROR' | 'WARNING' | 'INFO';
+export type DriftSeverity = 'BREAKING' | 'MODERATE' | 'MINOR';
+export type ActiveView = 'graph' | 'impact' | 'violations' | 'drift' | 'publications';
 
 export interface Module {
   id: string;
@@ -67,4 +70,76 @@ export interface Layout {
 export interface Selection {
   type: 'module' | 'event';
   id: string;
+}
+
+// ─── Impact Analysis ───────────────────────────────────────
+
+export interface AffectedModule {
+  moduleId: string;
+  moduleName: string;
+  relationshipType: string;
+  isDirectListener: boolean;
+}
+
+export interface EventImpactResult {
+  eventId: string;
+  eventName: string;
+  publisherModuleId: string;
+  directListeners: number;
+  indirectConsumers: number;
+  affectedModules: AffectedModule[];
+}
+
+export interface EventInfo {
+  eventId: string;
+  eventName: string;
+  directListeners: number;
+  listenerModuleIds: string[];
+}
+
+export interface DownstreamModule {
+  moduleId: string;
+  moduleName: string;
+  relationshipType: string;
+}
+
+export interface ModuleImpactResult {
+  moduleId: string;
+  moduleName: string;
+  publishedEvents: EventInfo[];
+  downstreamModules: DownstreamModule[];
+  totalAffectedModules: number;
+}
+
+// ─── Violations ────────────────────────────────────────────
+
+export interface ViolationItem {
+  id: string;
+  type: string;
+  severity: ViolationSeverity;
+  title: string;
+  description: string;
+  affectedModuleIds: string[];
+  affectedEventIds: string[];
+  detectedAt: number;
+}
+
+// ─── Drift ─────────────────────────────────────────────────
+
+export interface DriftItem {
+  id: string;
+  type: string;
+  severity: DriftSeverity;
+  title: string;
+  description: string;
+  affectedItemId: string;
+  affectedItemName: string;
+  detectedAt: number;
+}
+
+export interface DriftReport {
+  drifts: DriftItem[];
+  totalDrifts: number;
+  breachingCount: number;
+  comparedAt: number;
 }
