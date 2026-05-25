@@ -1,0 +1,137 @@
+/* ============================================================
+ * Eventus — design tokens
+ * Direction A · Topology · dark-first
+ * Drop in <link rel="stylesheet"> or @import. All tokens are
+ * CSS custom properties scoped to :root; override on .eventus-light
+ * for the inverted (documentation-friendly) surface.
+ * =========================================================
+ * TODO (v0.2): move this file to
+ *   eventus-ui/src/main/resources/static/eventus/tokens.css
+ * and update the embedded dashboard to import it. The favicon
+ * set (favicon.svg, favicon-32.png, favicon-64.png,
+ * apple-touch-icon.png) moves to the same static/ directory.
+ * ========================================================= */
+
+:root {
+  /* ─── Brand ──────────────────────────────────────────── */
+  --eventus-accent:        oklch(72% 0.18 300);  /* #9b7cf2 fallback */
+  --eventus-accent-hover:  oklch(78% 0.18 300);
+  --eventus-accent-dim:    oklch(45% 0.14 300);
+  --eventus-accent-ink:    #0a0a0a;              /* fg on accent fills */
+
+  /* Brand violet ramp — same hue across 100 → 900 */
+  --eventus-violet-100: oklch(95%  0.035 300);
+  --eventus-violet-200: oklch(90%  0.075 300);
+  --eventus-violet-300: oklch(82%  0.13  300);
+  --eventus-violet-400: oklch(75%  0.17  300);
+  --eventus-violet-500: oklch(70%  0.20  300);  /* canonical */
+  --eventus-violet-600: oklch(62%  0.22  300);
+  --eventus-violet-700: oklch(52%  0.20  300);
+  --eventus-violet-800: oklch(40%  0.16  300);
+  --eventus-violet-900: oklch(28%  0.10  300);
+
+  /* ─── Surfaces (dark) ───────────────────────────────── */
+  --eventus-bg:            #0a0a0a;
+  --eventus-bg-subtle:     #111111;
+  --eventus-bg-raised:     #171717;
+  --eventus-bg-inset:      #080808;
+  --eventus-border:        #262626;
+  --eventus-border-strong: #3a3a3a;
+
+  /* ─── Text (dark) ───────────────────────────────────── */
+  --eventus-fg:        #ededed;
+  --eventus-fg-mute:   #a3a3a3;
+  --eventus-fg-dim:    #666666;
+  --eventus-fg-faint:  #3f3f3f;
+
+  /* ─── Semantic ──────────────────────────────────────── */
+  --eventus-success:  oklch(72% 0.18 145);  /* HEALTHY */
+  --eventus-warn:     oklch(78% 0.16 75);   /* STALE */
+  --eventus-danger:   oklch(68% 0.20 25);   /* INCOMPLETE */
+  --eventus-info:     oklch(72% 0.14 230);  /* edge: subscribes */
+
+  /* ─── Typography ────────────────────────────────────── */
+  --eventus-font-sans: "Geist", "Geist Sans", system-ui, -apple-system, sans-serif;
+  --eventus-font-mono: "Geist Mono", ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+
+  --eventus-text-display: 72px;  /* tracking: -0.025em */
+  --eventus-text-h1:      48px;  /* tracking: -0.022em */
+  --eventus-text-h2:      32px;  /* tracking: -0.02em  */
+  --eventus-text-h3:      22px;  /* tracking: -0.015em */
+  --eventus-text-body-l:  17px;
+  --eventus-text-body:    15px;
+  --eventus-text-small:   13px;
+  --eventus-text-caption: 11px;  /* tracking: 0.14em uppercase for eyebrows */
+
+  /* ─── Shape ─────────────────────────────────────────── */
+  --eventus-radius-sm: 4px;
+  --eventus-radius-md: 6px;
+  --eventus-radius-lg: 8px;
+  --eventus-radius-xl: 12px;
+
+  /* ─── Spacing scale (4px base) ──────────────────────── */
+  --eventus-space-1:  4px;
+  --eventus-space-2:  8px;
+  --eventus-space-3: 12px;
+  --eventus-space-4: 16px;
+  --eventus-space-5: 20px;
+  --eventus-space-6: 24px;
+  --eventus-space-8: 32px;
+  --eventus-space-10: 40px;
+  --eventus-space-12: 48px;
+
+  /* ─── Graph viz ─────────────────────────────────────── */
+  --eventus-node-module-fill:    var(--eventus-bg-raised);
+  --eventus-node-event-fill:     var(--eventus-accent);
+  --eventus-node-stroke-healthy: var(--eventus-success);
+  --eventus-node-stroke-stale:   var(--eventus-warn);
+  --eventus-node-stroke-broken:  var(--eventus-danger);
+  --eventus-node-stroke-selected:var(--eventus-accent);
+  --eventus-edge-publish:        var(--eventus-accent);
+  --eventus-edge-subscribe:      var(--eventus-info);
+}
+
+/* ─── Inverted surface (docs / marketing site) ─────────── */
+.eventus-light {
+  --eventus-accent:        oklch(56% 0.22 300);  /* #6a3ed4 fallback */
+  --eventus-accent-hover:  oklch(50% 0.23 300);
+  --eventus-accent-dim:    oklch(90% 0.07 300);
+  --eventus-accent-ink:    #ffffff;
+
+  --eventus-bg:            #fafaf7;
+  --eventus-bg-subtle:     #f3f2ec;
+  --eventus-bg-raised:     #ffffff;
+  --eventus-bg-inset:      #ecebe4;
+  --eventus-border:        #e7e4dc;
+  --eventus-border-strong: #cfccc3;
+
+  --eventus-fg:        #0c0a08;
+  --eventus-fg-mute:   #56524a;
+  --eventus-fg-dim:    #8b877d;
+  --eventus-fg-faint:  #c9c6bd;
+
+  --eventus-success:  oklch(48% 0.16 145);
+  --eventus-warn:     oklch(58% 0.16 75);
+  --eventus-danger:   oklch(52% 0.22 25);
+  --eventus-info:     oklch(52% 0.14 230);
+}
+
+/* ─── Base reset for the embedded UI ──────────────────── */
+.eventus-app {
+  font-family: var(--eventus-font-sans);
+  background: var(--eventus-bg);
+  color: var(--eventus-fg);
+  -webkit-font-smoothing: antialiased;
+}
+.eventus-app code,
+.eventus-app pre,
+.eventus-app .eventus-mono { font-family: var(--eventus-font-mono); }
+
+/* Convenience eyebrow class — uppercase mono label */
+.eventus-eyebrow {
+  font-family: var(--eventus-font-mono);
+  font-size: var(--eventus-text-caption);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--eventus-fg-dim);
+}

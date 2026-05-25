@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Eventus — Brand Preview</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--eventus-font-sans);
+    background: var(--eventus-bg);
+    color: var(--eventus-fg);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 80px 56px 120px;
+  }
+  /* ─── header ─── */
+  .hdr {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--eventus-border);
+  }
+  .lockup { display: flex; align-items: center; gap: 14px; }
+  .lockup-word {
+    font-family: var(--eventus-font-mono);
+    font-weight: 500; font-size: 28px;
+    letter-spacing: -0.04em;
+    color: var(--eventus-fg);
+    line-height: 1;
+  }
+  .meta {
+    font-family: var(--eventus-font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--eventus-fg-dim);
+    text-align: right;
+  }
+  .meta .val { color: var(--eventus-fg-mute); margin-left: 6px; }
+  /* ─── hero ─── */
+  .hero { padding: 64px 0 80px; max-width: 720px; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--eventus-font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--eventus-accent);
+    margin-bottom: 24px;
+  }
+  .hero-eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--eventus-accent);
+  }
+  h1 {
+    font-size: 84px;
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 1.02;
+    margin: 0 0 24px;
+  }
+  .hero p {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--eventus-fg-mute);
+    margin: 0;
+    max-width: 560px;
+  }
+  /* ─── section ─── */
+  section { padding: 56px 0; border-top: 1px solid var(--eventus-border); }
+  .sec-head {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 32px;
+  }
+  .sec-num {
+    font-family: var(--eventus-font-mono);
+    font-size: 13px;
+    color: var(--eventus-fg-dim);
+    letter-spacing: 0.04em;
+  }
+  .sec-title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    color: var(--eventus-fg);
+  }
+  .sec-sub {
+    margin-left: auto;
+    font-family: var(--eventus-font-mono);
+    font-size: 12px;
+    color: var(--eventus-fg-dim);
+  }
+  /* ─── logo grid ─── */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 12px;
+  }
+  .lcell {
+    background: var(--eventus-bg-subtle);
+    border: 1px solid var(--eventus-border);
+    border-radius: 12px;
+    padding: 32px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    position: relative;
+  }
+  .lcell.light { background: #fafaf7; border-color: #e7e4dc; }
+  .lcell .label {
+    position: absolute; top: 14px; left: 18px;
+    font-family: var(--eventus-font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--eventus-fg-dim);
+  }
+  .lcell.light .label { color: #8b877d; }
+  .lcell .lockup-word { font-size: 36px; }
+  .lcell.light .lockup-word { color: #0c0a08; }
+  /* ─── color grid ─── */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  .swatch { display: flex; flex-direction: column; gap: 8px; }
+  .swatch-color {
+    height: 80px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .swatch-meta {
+    font-family: var(--eventus-font-mono);
+    font-size: 11px;
+    color: var(--eventus-fg);
+    line-height: 1.4;
+  }
+  .swatch-meta .v {
+    color: var(--eventus-fg-dim);
+    font-size: 10px;
+  }
+  /* ─── type ─── */
+  .type-rows {
+    display: flex; flex-direction: column; gap: 18px;
+    background: var(--eventus-bg-subtle);
+    border: 1px solid var(--eventus-border);
+    border-radius: 12px;
+    padding: 32px 36px;
+  }
+  .type-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: baseline;
+    gap: 32px;
+  }
+  .type-spec {
+    font-family: var(--eventus-font-mono);
+    font-size: 11px;
+    color: var(--eventus-fg-dim);
+    letter-spacing: 0.04em;
+  }
+  /* ─── icons ─── */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
+  }
+  .icon-cell {
+    background: var(--eventus-bg-subtle);
+    border: 1px solid var(--eventus-border);
+    border-radius: 8px;
+    padding: 20px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .icon-cell .name {
+    font-family: var(--eventus-font-mono);
+    font-size: 10px;
+    color: var(--eventus-fg-mute);
+    letter-spacing: 0.02em;
+  }
+  /* ─── components ─── */
+  .comp-block {
+    background: var(--eventus-bg-subtle);
+    border: 1px solid var(--eventus-border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 12px;
+  }
+  .comp-label {
+    font-family: var(--eventus-font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--eventus-fg-dim);
+    margin-bottom: 16px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    height: 32px; padding: 0 12px; border-radius: 6px;
+    font-family: var(--eventus-font-sans);
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; border: 1px solid transparent;
+    letter-spacing: -0.005em;
+  }
+  .btn-primary { background: var(--eventus-accent); color: var(--eventus-accent-ink); border-color: var(--eventus-accent); }
+  .btn-secondary { background: transparent; color: var(--eventus-fg); border-color: var(--eventus-border-strong); }
+  .btn-ghost { background: transparent; color: var(--eventus-fg); }
+  .btn-danger { background: transparent; color: var(--eventus-danger); border-color: var(--eventus-border-strong); }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 22px; padding: 0 9px; border-radius: 999px;
+    font-family: var(--eventus-font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.02em;
+    border: 1px solid;
+  }
+  .pill .pdot { width: 6px; height: 6px; border-radius: 50%; }
+  .pill-healthy { background: color-mix(in oklch, var(--eventus-success) 12%, transparent); color: var(--eventus-success); border-color: color-mix(in oklch, var(--eventus-success) 28%, transparent); }
+  .pill-healthy .pdot { background: var(--eventus-success); }
+  .pill-stale { background: color-mix(in oklch, var(--eventus-warn) 12%, transparent); color: var(--eventus-warn); border-color: color-mix(in oklch, var(--eventus-warn) 28%, transparent); }
+  .pill-stale .pdot { background: var(--eventus-warn); }
+  .pill-broken { background: color-mix(in oklch, var(--eventus-danger) 12%, transparent); color: var(--eventus-danger); border-color: color-mix(in oklch, var(--eventus-danger) 28%, transparent); }
+  .pill-broken .pdot { background: var(--eventus-danger); }
+  .pill-neutral { background: var(--eventus-bg-inset); color: var(--eventus-fg-mute); border-color: var(--eventus-border); }
+  .pill-neutral .pdot { background: var(--eventus-fg-dim); }
+  .pill-accent { background: color-mix(in oklch, var(--eventus-accent) 14%, transparent); color: var(--eventus-accent); border-color: color-mix(in oklch, var(--eventus-accent) 30%, transparent); }
+  .pill-accent .pdot { background: var(--eventus-accent); }
+  .input {
+    height: 36px; padding: 0 12px; width: 240px;
+    border-radius: 6px;
+    background: var(--eventus-bg-raised);
+    border: 1px solid var(--eventus-border);
+    font-family: var(--eventus-font-sans);
+    font-size: 13px; color: var(--eventus-fg);
+    display: flex; align-items: center;
+  }
+  .input.mono { font-family: var(--eventus-font-mono); }
+  .input.placeholder { color: var(--eventus-fg-dim); }
+  /* ─── code block ─── */
+  .code {
+    background: #0d0d0d; border: 1px solid #1f1f1f;
+    border-radius: 10px; overflow: hidden;
+  }
+  .code-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid #1f1f1f;
+    background: #080808;
+    font-family: var(--eventus-font-mono);
+    font-size: 11px;
+    color: var(--eventus-fg-mute);
+  }
+  .code-head .lang {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--eventus-fg-dim);
+    text-transform: uppercase;
+  }
+  pre.code-body {
+    margin: 0; padding: 14px 16px;
+    font-family: var(--eventus-font-mono);
+    font-size: 12.5px; line-height: 1.65;
+    color: #d4d4d4;
+  }
+  .ln { display: flex; gap: 14px; }
+  .ln-num { color: #3f3f3f; width: 18px; text-align: right; user-select: none; }
+  .kw { color: var(--eventus-accent); }
+  .st { color: oklch(76% 0.14 145); }
+  .nm { color: oklch(78% 0.14 75); }
+  .ty { color: oklch(76% 0.13 230); }
+  .fn { color: oklch(82% 0.10 60); }
+  .cm { color: #5a5a5a; }
+  /* ─── badges section ─── */
+  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge {
+    display: inline-flex; height: 20px; line-height: 20px;
+    border-radius: 4px; overflow: hidden;
+    font-family: var(--eventus-font-mono); font-size: 11px; font-weight: 500;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+  }
+  .badge .l { background: #444; color: #fff; padding: 0 7px; }
+  .badge .r { background: #9b7cf2; color: #fff; padding: 0 7px; }
+  .badge .r.green { background: #3ea35a; }
+  .badge .r.spring { background: #6db33f; }
+  .badge .l.dark { background: #0a0a0a; }
+  /* ─── files list ─── */
+  .files {
+    background: var(--eventus-bg-subtle);
+    border: 1px solid var(--eventus-border);
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+  .files h3 {
+    margin: 0 0 12px;
+    font-family: var(--eventus-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--eventus-fg-dim);
+    font-weight: 500;
+  }
+  .file-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+  }
+  .file-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--eventus-border);
+  }
+  .file-row:last-child { border-bottom: 0; }
+  .file-name {
+    font-family: var(--eventus-font-mono);
+    font-size: 12.5px;
+    color: var(--eventus-fg);
+  }
+  .file-desc {
+    font-family: var(--eventus-font-sans);
+    font-size: 11px;
+    color: var(--eventus-fg-dim);
+  }
+  /* ─── footer ─── */
+  footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--eventus-border);
+    display: flex; justify-content: space-between;
+    font-family: var(--eventus-font-mono);
+    font-size: 11px;
+    color: var(--eventus-fg-dim);
+    letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="lockup">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+        <path d="M7 12 L18 5"  stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+        <path d="M7 12 L18 19" stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+        <circle cx="18" cy="5"  r="2" fill="#9b7cf2"/>
+        <circle cx="18" cy="19" r="2" fill="#9b7cf2"/>
+        <circle cx="7"  cy="12" r="4.5" fill="#9b7cf2"/>
+        <circle cx="7"  cy="12" r="1.6" fill="#0a0a0a"/>
+      </svg>
+      <span class="lockup-word">eventus</span>
+    </div>
+    <div class="meta">
+      brand v0.1<span class="val">direction A · Topology</span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <span class="hero-eyebrow">
+      <span class="dot"></span>
+      Visual identity · locked
+    </span>
+    <h1>Event topology,<br>made visible.</h1>
+    <p>The full brand system in one page. Open <code style="font-family:var(--eventus-font-mono); color:var(--eventus-fg)">BRAND.md</code> for usage rules, and source <code style="font-family:var(--eventus-font-mono); color:var(--eventus-fg)">tokens.css</code> from the embedded UI when v0.2 lands.</p>
+  </div>
+
+  <!-- 01 · Logo -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <span class="sec-title">Logo</span>
+      <span class="sec-sub">eventus-mark · lockup · favicon</span>
+    </div>
+    <div class="logo-grid">
+      <div class="lcell">
+        <span class="label">Lockup · on dark</span>
+        <div class="lockup">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
+            <path d="M7 12 L18 5"  stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+            <path d="M7 12 L18 19" stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+            <circle cx="18" cy="5"  r="2" fill="#9b7cf2"/>
+            <circle cx="18" cy="19" r="2" fill="#9b7cf2"/>
+            <circle cx="7"  cy="12" r="4.5" fill="#9b7cf2"/>
+            <circle cx="7"  cy="12" r="1.6" fill="#0a0a0a"/>
+          </svg>
+          <span class="lockup-word" style="font-size:48px">eventus</span>
+        </div>
+      </div>
+      <div class="lcell light">
+        <span class="label">Lockup · on light</span>
+        <div class="lockup">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M7 12 L18 5"  stroke="#6a3ed4" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+            <path d="M7 12 L18 19" stroke="#6a3ed4" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+            <circle cx="18" cy="5"  r="2" fill="#6a3ed4"/>
+            <circle cx="18" cy="19" r="2" fill="#6a3ed4"/>
+            <circle cx="7"  cy="12" r="4.5" fill="#6a3ed4"/>
+            <circle cx="7"  cy="12" r="1.6" fill="#fafaf7"/>
+          </svg>
+          <span class="lockup-word">eventus</span>
+        </div>
+      </div>
+      <div class="lcell">
+        <span class="label">Mark sizes</span>
+        <div style="display:flex;align-items:center;gap:24px">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none"><path d="M7 12 L18 5" stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/><path d="M7 12 L18 19" stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/><circle cx="18" cy="5"  r="2" fill="#9b7cf2"/><circle cx="18" cy="19" r="2" fill="#9b7cf2"/><circle cx="7" cy="12" r="4.5" fill="#9b7cf2"/><circle cx="7" cy="12" r="1.6" fill="#0a0a0a"/></svg>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M7 12 L18 5" stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/><path d="M7 12 L18 19" stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/><circle cx="18" cy="5"  r="2" fill="#9b7cf2"/><circle cx="18" cy="19" r="2" fill="#9b7cf2"/><circle cx="7" cy="12" r="4.5" fill="#9b7cf2"/><circle cx="7" cy="12" r="1.6" fill="#0a0a0a"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 12 L18 5" stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/><path d="M7 12 L18 19" stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/><circle cx="18" cy="5" r="2" fill="#9b7cf2"/><circle cx="18" cy="19" r="2" fill="#9b7cf2"/><circle cx="7" cy="12" r="4.5" fill="#9b7cf2"/><circle cx="7" cy="12" r="1.6" fill="#0a0a0a"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · Color -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <span class="sec-title">Color</span>
+      <span class="sec-sub">tokens.css · :root (dark)</span>
+    </div>
+    <div class="comp-block">
+      <div class="comp-label">Surfaces</div>
+      <div class="color-grid">
+        <div class="swatch"><div class="swatch-color" style="background:#0a0a0a"></div><div class="swatch-meta">--bg<div class="v">#0a0a0a</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#111"></div><div class="swatch-meta">--bg-subtle<div class="v">#111111</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#171717"></div><div class="swatch-meta">--bg-raised<div class="v">#171717</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#080808"></div><div class="swatch-meta">--bg-inset<div class="v">#080808</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#262626"></div><div class="swatch-meta">--border<div class="v">#262626</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#3a3a3a"></div><div class="swatch-meta">--border-strong<div class="v">#3a3a3a</div></div></div>
+      </div>
+    </div>
+    <div class="comp-block">
+      <div class="comp-label">Brand · violet ramp</div>
+      <div class="color-grid" style="grid-template-columns: repeat(9, 1fr)">
+        <div class="swatch"><div class="swatch-color" style="background:oklch(95% 0.035 300)"></div><div class="swatch-meta">100</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:oklch(90% 0.075 300)"></div><div class="swatch-meta">200</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:oklch(82% 0.13 300)"></div><div class="swatch-meta">300</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:oklch(75% 0.17 300)"></div><div class="swatch-meta">400</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:oklch(70% 0.20 300)"></div><div class="swatch-meta">500<div class="v">brand</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:oklch(62% 0.22 300)"></div><div class="swatch-meta">600</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:oklch(52% 0.20 300)"></div><div class="swatch-meta">700</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:oklch(40% 0.16 300)"></div><div class="swatch-meta">800</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:oklch(28% 0.10 300)"></div><div class="swatch-meta">900</div></div>
+      </div>
+    </div>
+    <div class="comp-block">
+      <div class="comp-label">Semantic</div>
+      <div class="color-grid" style="grid-template-columns: repeat(5, 1fr)">
+        <div class="swatch"><div class="swatch-color" style="background:var(--eventus-accent)"></div><div class="swatch-meta">--accent<div class="v">violet 500</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--eventus-success)"></div><div class="swatch-meta">--success<div class="v">healthy</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--eventus-warn)"></div><div class="swatch-meta">--warn<div class="v">stale</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--eventus-danger)"></div><div class="swatch-meta">--danger<div class="v">incomplete</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--eventus-info)"></div><div class="swatch-meta">--info<div class="v">subscribes</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · Type -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <span class="sec-title">Typography</span>
+      <span class="sec-sub">Geist · Geist Mono</span>
+    </div>
+    <div class="type-rows">
+      <div class="type-row"><span class="type-spec">Display · 72</span><span style="font-size:72px;font-weight:600;letter-spacing:-0.025em;line-height:1.05">Event topology.</span></div>
+      <div class="type-row"><span class="type-spec">H1 · 48</span><span style="font-size:48px;font-weight:600;letter-spacing:-0.022em;line-height:1.05">Event topology.</span></div>
+      <div class="type-row"><span class="type-spec">H2 · 32</span><span style="font-size:32px;font-weight:600;letter-spacing:-0.02em">Event topology.</span></div>
+      <div class="type-row"><span class="type-spec">H3 · 22</span><span style="font-size:22px;font-weight:600;letter-spacing:-0.015em">Event topology.</span></div>
+      <div class="type-row"><span class="type-spec">Body L · 17</span><span style="font-size:17px;line-height:1.55">Event topology, made visible.</span></div>
+      <div class="type-row"><span class="type-spec">Body · 15</span><span style="font-size:15px;line-height:1.55;color:var(--eventus-fg-mute)">Eventus extracts the modules and events from your JVM app.</span></div>
+      <div class="type-row"><span class="type-spec">Mono · 32</span><span style="font-family:var(--eventus-font-mono);font-size:32px;letter-spacing:-0.02em">com.example.order.OrderPlaced</span></div>
+      <div class="type-row"><span class="type-spec">Eyebrow · 11</span><span style="font-family:var(--eventus-font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--eventus-fg-dim)">GET /actuator/eventus-modules</span></div>
+    </div>
+  </section>
+
+  <!-- 04 · Components -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <span class="sec-title">Components</span>
+      <span class="sec-sub">buttons · pills · inputs</span>
+    </div>
+    <div class="comp-block">
+      <div class="comp-label">Buttons · 4 kinds</div>
+      <div class="row">
+        <button class="btn btn-primary">Inspect graph</button>
+        <button class="btn btn-secondary">Cancel</button>
+        <button class="btn btn-ghost">Skip</button>
+        <button class="btn btn-danger">Drop publication</button>
+      </div>
+    </div>
+    <div class="comp-block">
+      <div class="comp-label">Status pills</div>
+      <div class="row">
+        <span class="pill pill-healthy"><span class="pdot"></span>HEALTHY</span>
+        <span class="pill pill-stale"><span class="pdot"></span>STALE</span>
+        <span class="pill pill-broken"><span class="pdot"></span>INCOMPLETE</span>
+        <span class="pill pill-neutral"><span class="pdot"></span>DEGRADED</span>
+        <span class="pill pill-accent"><span class="pdot"></span>NEW</span>
+      </div>
+    </div>
+    <div class="comp-block">
+      <div class="comp-label">Inputs</div>
+      <div class="row">
+        <div class="input placeholder">Filter modules…</div>
+        <div class="input mono">com.example.order.OrderPlaced</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · Icons -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <span class="sec-title">Iconography</span>
+      <span class="sec-sub">20×20 · 1.5px stroke · round caps</span>
+    </div>
+    <div class="icon-grid" id="icon-grid"></div>
+  </section>
+
+  <!-- 06 · Code -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <span class="sec-title">Code &amp; terminal</span>
+      <span class="sec-sub">Geist Mono · 12.5 / 16.5 / 1.65</span>
+    </div>
+    <div class="code">
+      <div class="code-head">
+        <span>src/main/java/com/example/order/OrderService.java</span>
+        <span class="lang">java</span>
+      </div>
+      <pre class="code-body"><div class="ln"><span class="ln-num">1</span><span><span class="kw">@Component</span></span></div><div class="ln"><span class="ln-num">2</span><span><span class="kw">public class</span> <span class="ty">OrderService</span> {</span></div><div class="ln"><span class="ln-num">3</span><span>  <span class="kw">private final</span> <span class="ty">ApplicationEventPublisher</span> events;</span></div><div class="ln"><span class="ln-num">4</span><span> </span></div><div class="ln"><span class="ln-num">5</span><span>  <span class="kw">public</span> <span class="ty">Order</span> <span class="fn">place</span>(<span class="ty">Cart</span> cart) {</span></div><div class="ln"><span class="ln-num">6</span><span>    <span class="kw">var</span> order = <span class="ty">Order</span>.<span class="fn">from</span>(cart);</span></div><div class="ln"><span class="ln-num">7</span><span>    events.<span class="fn">publishEvent</span>(<span class="kw">new</span> <span class="ty">OrderPlaced</span>(order.<span class="fn">id</span>()));</span></div><div class="ln"><span class="ln-num">8</span><span>    <span class="cm">// Eventus captures the publication automatically</span></span></div><div class="ln"><span class="ln-num">9</span><span>    <span class="kw">return</span> order;</span></div><div class="ln"><span class="ln-num">10</span><span>  }</span></div><div class="ln"><span class="ln-num">11</span><span>}</span></div></pre>
+    </div>
+  </section>
+
+  <!-- 07 · README badges -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <span class="sec-title">README &amp; social</span>
+      <span class="sec-sub">shields.io · OG card 1200×630</span>
+    </div>
+    <div class="comp-block">
+      <div class="comp-label">Badges</div>
+      <div class="badge-row">
+        <div class="badge"><span class="l">build</span><span class="r green">passing</span></div>
+        <div class="badge"><span class="l">modulith</span><span class="r green">1.2 · 1.3 · 2.0</span></div>
+        <div class="badge"><span class="l">maven central</span><span class="r">0.1.0</span></div>
+        <div class="badge"><span class="l">license</span><span class="r green">apache 2.0</span></div>
+        <div class="badge"><span class="l">java</span><span class="r">21</span></div>
+        <div class="badge"><span class="l">spring boot</span><span class="r spring">3.x</span></div>
+        <div class="badge"><span class="l dark">eventus</span><span class="r">event topology</span></div>
+      </div>
+    </div>
+    <div class="comp-block" style="padding:0">
+      <img src="og-card.png" alt="Eventus OG card" style="display:block;width:100%;border-radius:12px"/>
+    </div>
+  </section>
+
+  <!-- File map -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">∗</span>
+      <span class="sec-title">File map</span>
+      <span class="sec-sub">drop into docs/brand/</span>
+    </div>
+    <div class="files">
+      <div class="file-grid">
+        <div class="file-row"><span class="file-name">BRAND.md</span><span class="file-desc">brand guide</span></div>
+        <div class="file-row"><span class="file-name">tokens.css</span><span class="file-desc">CSS variables</span></div>
+        <div class="file-row"><span class="file-name">eventus-mark.svg</span><span class="file-desc">color mark · dark</span></div>
+        <div class="file-row"><span class="file-name">eventus-mark-on-light.svg</span><span class="file-desc">color mark · light</span></div>
+        <div class="file-row"><span class="file-name">eventus-mark-mono-light.svg</span><span class="file-desc">mono mark · light fill</span></div>
+        <div class="file-row"><span class="file-name">eventus-mark-mono-dark.svg</span><span class="file-desc">mono mark · dark fill</span></div>
+        <div class="file-row"><span class="file-name">eventus-lockup-on-dark.svg</span><span class="file-desc">wordmark + mark · dark</span></div>
+        <div class="file-row"><span class="file-name">eventus-lockup-on-light.svg</span><span class="file-desc">wordmark + mark · light</span></div>
+        <div class="file-row"><span class="file-name">favicon.svg</span><span class="file-desc">favicon source</span></div>
+        <div class="file-row"><span class="file-name">favicon-32.png</span><span class="file-desc">32×32 raster</span></div>
+        <div class="file-row"><span class="file-name">favicon-64.png</span><span class="file-desc">64×64 retina</span></div>
+        <div class="file-row"><span class="file-name">apple-touch-icon.png</span><span class="file-desc">180×180 iOS</span></div>
+        <div class="file-row"><span class="file-name">og-card.svg</span><span class="file-desc">social card source</span></div>
+        <div class="file-row"><span class="file-name">og-card.png</span><span class="file-desc">social card 1200×630</span></div>
+        <div class="file-row"><span class="file-name">og-card.html</span><span class="file-desc">live render with Geist</span></div>
+        <div class="file-row"><span class="file-name">README-badges.md</span><span class="file-desc">badge copy-paste</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Eventus · brand v0.1 · direction A · Topology</span>
+    <span>tokens.css · BRAND.md</span>
+  </footer>
+</div>
+
+<script>
+// Icon set — 16 glyphs, 20×20, currentColor stroke
+const ICONS = [
+  ['module',      'M3 3h14v14H3z M3 10h14 M10 3v14'],
+  ['event',       'M10 6.5a3.5 3.5 0 1 1 0 7a3.5 3.5 0 0 1 0-7 M10 3v2 M10 15v2 M3 10h2 M15 10h2'],
+  ['publication', 'M3 10l6-5v3h8v4H9v3z'],
+  ['aggregate',   'M10 3.5a6.5 6.5 0 1 1 0 13a6.5 6.5 0 0 1 0-13 M10 8a2 2 0 1 1 0 4a2 2 0 0 1 0-4'],
+  ['topology',    'M5 8a2 2 0 1 1 0 4a2 2 0 0 1 0-4 M15 3a2 2 0 1 1 0 4a2 2 0 0 1 0-4 M15 13a2 2 0 1 1 0 4a2 2 0 0 1 0-4 M6.5 9L13.5 5.7 M6.5 11L13.5 14.3'],
+  ['healthy',     'M4 10.5 L8.5 15 L16 6'],
+  ['stale',       'M10 3.5a6.5 6.5 0 1 1 0 13a6.5 6.5 0 0 1 0-13 M10 6.5V10l2.5 2'],
+  ['incomplete',  'M10 3.5a6.5 6.5 0 1 1 0 13a6.5 6.5 0 0 1 0-13 M10 6.5V11 M10 13.5v.5'],
+  ['subscribe',   'M4 7h12 M4 10h12 M4 13h7 M11.8 13a2.2 2.2 0 1 1 4.4 0a2.2 2.2 0 0 1-4.4 0'],
+  ['publish',     'M10 3v10 M6 7l4-4 4 4 M4 17h12'],
+  ['graph',       'M3 15a2 2 0 1 1 4 0a2 2 0 0 1-4 0 M13 5a2 2 0 1 1 4 0a2 2 0 0 1-4 0 M8 10a2 2 0 1 1 4 0a2 2 0 0 1-4 0 M6.5 13.5L8.5 11.5 M11.5 8.5L13.5 6.5'],
+  ['search',      'M4 9a5 5 0 1 1 10 0a5 5 0 0 1-10 0 M13 13l4 4'],
+  ['filter',      'M3 5h14 M5.5 10h9 M8.5 15h3'],
+  ['settings',    'M7.5 10a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0 M10 3.5v2 M10 14.5v2 M3.5 10h2 M14.5 10h2 M5.4 5.4l1.4 1.4 M13.2 13.2l1.4 1.4 M5.4 14.6l1.4-1.4 M13.2 6.8l1.4-1.4'],
+  ['external',    'M11 4h5v5 M16 4l-8 8 M9 4H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-4'],
+  ['copy',        'M6 6h10v10H6z M12 6V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h1'],
+];
+const grid = document.getElementById('icon-grid');
+ICONS.forEach(([name, d]) => {
+  const cell = document.createElement('div');
+  cell.className = 'icon-cell';
+  cell.innerHTML =
+    '<svg width="32" height="32" viewBox="0 0 20 20" fill="none" stroke="#ededed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="' + d + '"/></svg>' +
+    '<div class="name">' + name + '</div>';
+  grid.appendChild(cell);
+});
+</script>
+</body>
+</html>

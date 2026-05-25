@@ -1,17 +1,32 @@
-# Eventus
+<p align="center">
+  <img src="docs/brand/eventus-mark.svg" width="64" height="64" alt="Eventus">
+</p>
 
-**Event topology, made visible.**
+<h1 align="center">Eventus</h1>
 
-[![Build](https://github.com/eventus-io/eventus/actions/workflows/build.yml/badge.svg)](https://github.com/eventus-io/eventus/actions/workflows/build.yml)
-[![Modulith Compatibility](https://github.com/eventus-io/eventus/actions/workflows/compatibility.yml/badge.svg)](https://github.com/eventus-io/eventus/actions/workflows/compatibility.yml)
-[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
+<p align="center"><strong>Event topology, made visible.</strong></p>
 
-Eventus extracts the event and module topology from your JVM application,
-materialises it as a live knowledge graph, and exposes it through an embedded
-dashboard, Spring Boot Actuator endpoints, and an MCP server for LLM queries.
+<p align="center">
+  <a href="https://github.com/eventus-io/eventus/actions/workflows/build.yml"><img src="https://github.com/eventus-io/eventus/actions/workflows/build.yml/badge.svg" alt="Build"></a>
+  <a href="https://github.com/eventus-io/eventus/actions/workflows/compatibility.yml"><img src="https://github.com/eventus-io/eventus/actions/workflows/compatibility.yml/badge.svg" alt="Modulith compatibility"></a>
+  <a href="https://central.sonatype.com/artifact/io.eventus/eventus-spring"><img src="https://img.shields.io/maven-central/v/io.eventus/eventus-spring?color=9b7cf2&label=maven%20central" alt="Maven Central"></a>
+  <a href="https://openjdk.org/projects/jdk/25/"><img src="https://img.shields.io/badge/java-25-9b7cf2" alt="Java 25"></a>
+  <a href="https://spring.io/projects/spring-boot"><img src="https://img.shields.io/badge/spring%20boot-4.x-6db33f" alt="Spring Boot 4.x"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-3ea35a" alt="License"></a>
+  <a href="https://github.com/eventus-io/eventus"><img src="https://img.shields.io/badge/eventus-event--topology-9b7cf2" alt="Eventus"></a>
+</p>
 
-Start with Spring Modulith — expand to Spring Cloud Stream, Kafka, and plain
-JVM applications as your needs grow.
+<p align="center">
+  Eventus extracts the event and module topology from your JVM application,
+  materialises it as a live knowledge graph, and exposes it through an embedded
+  dashboard, Spring Boot Actuator endpoints, and an MCP server for LLM queries.
+  Start with Spring Modulith — expand to Kafka, Axon, and plain JVM applications
+  as your needs grow.
+</p>
+
+<p align="center">
+  <img src="docs/brand/og-card.png" alt="Eventus — event topology, made visible." width="720">
+</p>
 
 ---
 
@@ -186,13 +201,35 @@ The compatibility matrix across Spring Modulith minor versions is verified autom
 
 ---
 
+## Brand
+
+The Eventus visual identity (logo, color, type, components) lives in
+[`docs/brand/`](docs/brand). See [`docs/brand/BRAND.md`](docs/brand/BRAND.md)
+for the full guide. The system is dark-first, mono-forward, and built on a
+single graph-topology motif — same DNA across the embedded UI, the marketing
+site, and the Grafana dashboard.
+
+If you're embedding Eventus in a documentation site, copy these meta tags into
+the page `<head>`:
+
+```html
+<link rel="icon" type="image/svg+xml" href="/docs/brand/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/docs/brand/apple-touch-icon.png">
+<meta property="og:title" content="Eventus — Event topology, made visible.">
+<meta property="og:description" content="Extract the event and module topology from your JVM application.">
+<meta property="og:image" content="/docs/brand/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+```
+
+---
+
 ## Releasing to Maven Central
 
 ### Required GitHub secrets
 
-| Secret           | How to obtain                                    |
-|------------------|--------------------------------------------------|
-| `GPG_PRIVATE_KEY` | `gpg --export-secret-keys --armor <KEY_ID>`     |
+| Secret            | How to obtain                                    |
+|-------------------|--------------------------------------------------|
+| `GPG_PRIVATE_KEY` | `gpg --export-secret-keys --armor <KEY_ID>`      |
 | `GPG_PASSPHRASE`  | Passphrase for the GPG key                       |
 | `OSSRH_USERNAME`  | Sonatype OSSRH username or user token            |
 | `OSSRH_TOKEN`     | Sonatype OSSRH password or token                 |
@@ -207,6 +244,13 @@ git push origin main --tags
 ```
 
 The `release.yml` workflow signs all artifacts with GPG and deploys to Maven Central via the Nexus staging plugin.
+
+### One-time setup
+
+1. Register a Sonatype OSSRH account at `issues.sonatype.org`
+2. Open a ticket to claim group ID `io.eventus` pointing to `github.com/eventus-io/eventus`
+3. Generate a user token in the OSSRH Nexus UI and store it as GitHub secrets
+4. Upload your GPG public key: `gpg --keyserver keyserver.ubuntu.com --send-keys <KEY_ID>`
 
 ---
 

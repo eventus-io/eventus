@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Eventus — OG card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #0a0a0a; }
+  body { font-family: 'Geist', system-ui, sans-serif; }
+  .card { width: 1200px; height: 630px; position: relative; overflow: hidden; background: #0a0a0a; color: #ededed; }
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, #262626 1px, transparent 1px),
+      linear-gradient(to bottom, #262626 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.5;
+  }
+  .inner { position: relative; padding: 80px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; height: 100%; box-sizing: border-box; align-items: center; }
+  .lockup { display: flex; align-items: center; gap: 20px; }
+  .word { font-family: 'Geist Mono', monospace; font-weight: 500; font-size: 44px; letter-spacing: -0.04em; color: #ededed; line-height: 1; }
+  h1 { font-size: 100px; font-weight: 600; letter-spacing: -0.028em; line-height: 1.0; margin: 24px 0 28px; color: #ededed; }
+  .meta { font-family: 'Geist Mono', monospace; font-size: 18px; letter-spacing: 0.04em; color: #a3a3a3; display: inline-flex; align-items: center; gap: 14px; }
+  .dot { width: 4px; height: 4px; border-radius: 50%; background: #666666; }
+  .graph {
+    background: #111111; border: 1px solid #262626; border-radius: 16px;
+    height: 410px; padding: 28px; position: relative; box-sizing: border-box;
+  }
+  .graph-label { position: absolute; top: 16px; left: 22px; font-family: 'Geist Mono', monospace; font-size: 13px; letter-spacing: 0.14em; color: #666666; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="grid"></div>
+  <div class="inner">
+    <div>
+      <div class="lockup">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
+          <path d="M7 12 L18 5"  stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+          <path d="M7 12 L18 19" stroke="#9b7cf2" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+          <circle cx="18" cy="5"  r="2" fill="#9b7cf2"/>
+          <circle cx="18" cy="19" r="2" fill="#9b7cf2"/>
+          <circle cx="7"  cy="12" r="4.5" fill="#9b7cf2"/>
+          <circle cx="7"  cy="12" r="1.6" fill="#0a0a0a"/>
+        </svg>
+        <span class="word">eventus</span>
+      </div>
+      <h1>Event<br/>topology,<br/>made visible.</h1>
+      <div class="meta">
+        <span>github.com/rafaelmaia/eventus</span>
+        <span class="dot"></span>
+        <span>apache 2.0</span>
+      </div>
+    </div>
+    <div class="graph">
+      <div class="graph-label">/ACTUATOR/EVENTUS-MODULES</div>
+      <svg width="100%" height="100%" viewBox="0 0 380 350" style="margin-top: 24px;">
+        <defs>
+          <marker id="ar-a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#9b7cf2"/></marker>
+          <marker id="ar-i" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#7eb9f0"/></marker>
+        </defs>
+        <line x1="42" y1="60"  x2="160" y2="100" stroke="#9b7cf2" stroke-width="1.5" marker-end="url(#ar-a)"/>
+        <line x1="42" y1="60"  x2="160" y2="180" stroke="#9b7cf2" stroke-width="1.5" marker-end="url(#ar-a)"/>
+        <line x1="42" y1="240" x2="160" y2="240" stroke="#9b7cf2" stroke-width="1.5" marker-end="url(#ar-a)"/>
+        <line x1="180" y1="100" x2="300" y2="60"  stroke="#7eb9f0" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#ar-i)"/>
+        <line x1="180" y1="180" x2="300" y2="220" stroke="#7eb9f0" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#ar-i)"/>
+        <rect x="6"   y="46"  width="64" height="28" rx="6" fill="#171717" stroke="#6ee094" stroke-width="1.5"/>
+        <text x="38"  y="64" font-family="Geist Mono, monospace" font-size="11" fill="#ededed" text-anchor="middle">order</text>
+        <rect x="6"   y="226" width="64" height="28" rx="6" fill="#171717" stroke="#6ee094" stroke-width="1.5"/>
+        <text x="38"  y="244" font-family="Geist Mono, monospace" font-size="11" fill="#ededed" text-anchor="middle">checkout</text>
+        <rect x="270" y="46"  width="78" height="28" rx="6" fill="#171717" stroke="#eab464" stroke-width="1.5"/>
+        <text x="309" y="64" font-family="Geist Mono, monospace" font-size="11" fill="#ededed" text-anchor="middle">inventory</text>
+        <rect x="270" y="206" width="78" height="28" rx="6" fill="#171717" stroke="#ef7766" stroke-width="1.5"/>
+        <text x="309" y="224" font-family="Geist Mono, monospace" font-size="11" fill="#ededed" text-anchor="middle">payments</text>
+        <circle cx="170" cy="100" r="6" fill="#9b7cf2"/>
+        <text x="182" y="104" font-family="Geist Mono, monospace" font-size="10" fill="#a3a3a3">OrderPlaced</text>
+        <circle cx="170" cy="180" r="6" fill="#9b7cf2"/>
+        <text x="182" y="184" font-family="Geist Mono, monospace" font-size="10" fill="#a3a3a3">OrderPriced</text>
+        <circle cx="170" cy="240" r="6" fill="#9b7cf2"/>
+        <text x="182" y="244" font-family="Geist Mono, monospace" font-size="10" fill="#a3a3a3">Checkout</text>
+      </svg>
+    </div>
+  </div>
+</div>
+</body>
+</html>

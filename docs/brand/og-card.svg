@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" fill="none" role="img" aria-label="Eventus — Event topology, made visible.">
+  <title>Eventus — Event topology, made visible.</title>
+  <rect width="1200" height="630" fill="#0a0a0a"></rect>
+
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0 L0 0 L0 40" fill="none" stroke="#262626" stroke-width="1" opacity="0.6"></path>
+    </pattern>
+    <marker id="arrow-a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#9b7cf2"></path>
+    </marker>
+    <marker id="arrow-i" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#7eb9f0"></path>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#grid)"></rect>
+
+  <g transform="translate(80 80)">
+    <g transform="translate(0 0)">
+      <path d="M14 24 L36 10" stroke="#9b7cf2" stroke-width="3" stroke-linecap="round" opacity="0.65"></path>
+      <path d="M14 24 L36 38" stroke="#9b7cf2" stroke-width="3" stroke-linecap="round" opacity="0.65"></path>
+      <circle cx="36" cy="10" r="4" fill="#9b7cf2"></circle>
+      <circle cx="36" cy="38" r="4" fill="#9b7cf2"></circle>
+      <circle cx="14" cy="24" r="9" fill="#9b7cf2"></circle>
+      <circle cx="14" cy="24" r="3.2" fill="#0a0a0a"></circle>
+    </g>
+    <text x="62" y="38" font-family="&#39;Geist Mono&#39;, ui-monospace, &#39;SF Mono&#39;, Menlo, monospace" font-size="30" font-weight="500" letter-spacing="-0.04em" fill="#ededed">eventus</text>
+  </g>
+
+  <text x="80" y="280" font-family="&#39;Geist&#39;, system-ui, sans-serif" font-size="92" font-weight="600" letter-spacing="-0.028em" fill="#ededed">Event</text>
+  <text x="80" y="380" font-family="&#39;Geist&#39;, system-ui, sans-serif" font-size="92" font-weight="600" letter-spacing="-0.028em" fill="#ededed">topology,</text>
+  <text x="80" y="480" font-family="&#39;Geist&#39;, system-ui, sans-serif" font-size="92" font-weight="600" letter-spacing="-0.028em" fill="#ededed">made visible.</text>
+
+  <text x="80" y="555" font-family="&#39;Geist Mono&#39;, ui-monospace, &#39;SF Mono&#39;, Menlo, monospace" font-size="18" letter-spacing="0.04em" fill="#a3a3a3">github.com/rafaelmaia/eventus</text>
+  <circle cx="385" cy="549" r="3" fill="#666666"></circle>
+  <text x="400" y="555" font-family="&#39;Geist Mono&#39;, ui-monospace, &#39;SF Mono&#39;, Menlo, monospace" font-size="18" letter-spacing="0.04em" fill="#a3a3a3">apache 2.0</text>
+
+  <g transform="translate(720 110)">
+    <rect x="0" y="0" width="400" height="410" rx="14" fill="#111111" stroke="#262626" stroke-width="1"></rect>
+    <text x="20" y="30" font-family="&#39;Geist Mono&#39;, ui-monospace, &#39;SF Mono&#39;, Menlo, monospace" font-size="11" letter-spacing="0.14em" fill="#666666">/ACTUATOR/EVENTUS-MODULES</text>
+    <g transform="translate(20 60)">
+      <line x1="40" y1="80" x2="170" y2="120" stroke="#9b7cf2" stroke-width="1.5" marker-end="url(#arrow-a)"></line>
+      <line x1="40" y1="80" x2="170" y2="200" stroke="#9b7cf2" stroke-width="1.5" marker-end="url(#arrow-a)"></line>
+      <line x1="195" y1="120" x2="310" y2="80" stroke="#7eb9f0" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow-i)"></line>
+      <line x1="195" y1="200" x2="310" y2="230" stroke="#7eb9f0" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow-i)"></line>
+      <line x1="40" y1="260" x2="170" y2="260" stroke="#9b7cf2" stroke-width="1.5" marker-end="url(#arrow-a)"></line>
+      <g>
+        <rect x="10" y="68" width="60" height="24" rx="6" fill="#171717" stroke="#6ee094" stroke-width="1.5"></rect>
+        <text x="40" y="84" font-family="&#39;Geist Mono&#39;, ui-monospace, &#39;SF Mono&#39;, Menlo, monospace" font-size="11" fill="#ededed" text-anchor="middle">order</text>
+      </g>
+      <g>
+        <rect x="10" y="248" width="60" height="24" rx="6" fill="#171717" stroke="#6ee094" stroke-width="1.5"></rect>
+        <text x="40" y="264" font-family="&#39;Geist Mono&#39;, ui-monospace, &#39;SF Mono&#39;, Menlo, monospace" font-size="11" fill="#ededed" text-anchor="middle">checkout</text>
+      </g>
+      <g>
+        <rect x="280" y="68" width="74" height="24" rx="6" fill="#171717" stroke="#eab464" stroke-width="1.5"></rect>
+        <text x="317" y="84" font-family="&#39;Geist Mono&#39;, ui-monospace, &#39;SF Mono&#39;, Menlo, monospace" font-size="11" fill="#ededed" text-anchor="middle">inventory</text>
+      </g>
+      <g>
+        <rect x="280" y="218" width="74" height="24" rx="6" fill="#171717" stroke="#ef7766" stroke-width="1.5"></rect>
+        <text x="317" y="234" font-family="&#39;Geist Mono&#39;, ui-monospace, &#39;SF Mono&#39;, Menlo, monospace" font-size="11" fill="#ededed" text-anchor="middle">payments</text>
+      </g>
+      <circle cx="180" cy="120" r="6" fill="#9b7cf2"></circle>
+      <text x="192" y="124" font-family="&#39;Geist Mono&#39;, ui-monospace, &#39;SF Mono&#39;, Menlo, monospace" font-size="10" fill="#a3a3a3">OrderPlaced</text>
+      <circle cx="180" cy="200" r="6" fill="#9b7cf2"></circle>
+      <text x="192" y="204" font-family="&#39;Geist Mono&#39;, ui-monospace, &#39;SF Mono&#39;, Menlo, monospace" font-size="10" fill="#a3a3a3">OrderPriced</text>
+      <circle cx="180" cy="260" r="6" fill="#9b7cf2"></circle>
+      <text x="192" y="264" font-family="&#39;Geist Mono&#39;, ui-monospace, &#39;SF Mono&#39;, Menlo, monospace" font-size="10" fill="#a3a3a3">Checkout</text>
+    </g>
+  </g>
+</svg>
