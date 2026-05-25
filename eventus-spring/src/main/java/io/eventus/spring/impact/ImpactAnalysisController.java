@@ -22,7 +22,7 @@ public class ImpactAnalysisController {
     }
 
     @GetMapping("/event/{eventId}")
-    public ResponseEntity<EventImpactResponse> analyzeEvent(@PathVariable String eventId) {
+    public ResponseEntity<EventImpactResponse> analyzeEvent(@PathVariable("eventId") String eventId) {
         try {
             return ResponseEntity.ok(impactAnalyzer.analyzeEventImpact(eventId));
         } catch (EventNotFoundException e) {
@@ -31,7 +31,7 @@ public class ImpactAnalysisController {
     }
 
     @GetMapping("/module/{moduleId}")
-    public ResponseEntity<ModuleImpactResponse> analyzeModule(@PathVariable String moduleId) {
+    public ResponseEntity<ModuleImpactResponse> analyzeModule(@PathVariable("moduleId") String moduleId) {
         try {
             return ResponseEntity.ok(impactAnalyzer.analyzeModuleImpact(moduleId));
         } catch (ModuleNotFoundException e) {

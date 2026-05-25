@@ -14,7 +14,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 @AutoConfiguration(after = EventusAutoConfiguration.class)
-@ConditionalOnClass(name = "org.springframework.ai.mcp.server.autoconfigure.McpServerProperties")
+@ConditionalOnClass(name = "org.springframework.ai.mcp.server.common.autoconfigure.properties.McpServerProperties")
 @ConditionalOnProperty(prefix = "eventus.mcp", name = "enabled", matchIfMissing = true)
 @EnableConfigurationProperties(EventusMcpProperties.class)
 public class EventusMcpAutoConfiguration {

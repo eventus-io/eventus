@@ -1,7 +1,7 @@
 package io.eventus.spring.testapp.inventory;
 
 import io.eventus.spring.testapp.order.OrderPlaced;
-import org.springframework.modulith.ApplicationModuleListener;
+import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
 
 @Service

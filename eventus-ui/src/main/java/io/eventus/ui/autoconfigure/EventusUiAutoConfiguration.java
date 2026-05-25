@@ -16,9 +16,14 @@ public class EventusUiAutoConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // index.html must never be cached so re-deploys are picked up immediately
+        registry.addResourceHandler("/eventus/index.html")
+                .addResourceLocations("classpath:/static/eventus/")
+                .setCachePeriod(0);
+        // hashed asset bundles are safe to cache long-term
         registry.addResourceHandler("/eventus/**")
                 .addResourceLocations("classpath:/static/eventus/")
-                .setCachePeriod(3600);
+                .setCachePeriod(31536000);
     }
 
     @Override

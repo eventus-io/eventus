@@ -6,19 +6,21 @@ import io.eventus.spring.test.TestApplication;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = TestApplication.class)
-@AutoConfigureMockMvc
 class ViolationsControllerTest {
 
     @Autowired
+    WebApplicationContext context;
+
     MockMvc mockMvc;
 
     @Autowired
@@ -26,6 +28,7 @@ class ViolationsControllerTest {
 
     @BeforeEach
     void populateGraph() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
         var model = new GraphModel();
         model.addModule(new ModuleNode("order", "Order", 3, 0, ModuleStatus.HEALTHY));
         model.addModule(new ModuleNode("inventory", "Inventory", 2, 0, ModuleStatus.HEALTHY));

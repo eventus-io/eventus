@@ -50,6 +50,11 @@
       <artifactId>spring-modulith-core</artifactId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.modulith</groupId>
+      <artifactId>spring-modulith-events-api</artifactId>
+      <optional>true</optional>
+    </dependency>
 
     <!-- Annotation processor (compile-only) -->
     <dependency>

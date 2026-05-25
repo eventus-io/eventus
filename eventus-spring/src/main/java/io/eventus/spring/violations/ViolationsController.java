@@ -23,8 +23,8 @@ public class ViolationsController {
 
     @GetMapping
     public List<Violation> getViolations(
-            @RequestParam(required = false) ViolationSeverity severity,
-            @RequestParam(required = false) ViolationType type) {
+            @RequestParam(name = "severity", required = false) ViolationSeverity severity,
+            @RequestParam(name = "type", required = false) ViolationType type) {
         return violationAnalyzer.analyze().stream()
                 .filter(v -> severity == null || v.severity() == severity)
                 .filter(v -> type == null || v.type() == type)
