@@ -10,9 +10,9 @@ jobs:
   compatibility:
     name: Modulith ${{ matrix.modulith-version }}
     runs-on: ubuntu-latest
-    fail-fast: false
 
     strategy:
+      fail-fast: false
       matrix:
         modulith-version: ["2.0.5", "2.0.6"]
 
