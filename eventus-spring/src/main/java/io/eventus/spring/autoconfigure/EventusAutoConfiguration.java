@@ -21,6 +21,7 @@ import io.eventus.spring.drift.FileSystemBaselineManager;
 import io.eventus.spring.impact.ImpactAnalysisController;
 import io.eventus.spring.violations.ViolationsController;
 import io.eventus.spring.metrics.EventusMetricsCollector;
+import io.eventus.spring.publications.ModulithPublicationBridge;
 import io.eventus.spring.ui.EventusUIApiController;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -35,6 +36,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.modulith.core.ApplicationModules;
+import org.springframework.modulith.events.core.EventPublicationRepository;
 
 @AutoConfiguration
 @AutoConfigureAfter(name = "org.springframework.boot.actuate.autoconfigure.metrics.MetricsAutoConfiguration")
@@ -143,8 +145,18 @@ public class EventusAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public EventusUIApiController eventusUIApiController(GraphReader reader) {
-        return new EventusUIApiController(reader);
+    public EventusUIApiController eventusUIApiController(GraphReader reader,
+            java.util.Optional<ModulithPublicationBridge> publicationBridge) {
+        return new EventusUIApiController(reader, publicationBridge);
+    }
+
+    @Bean
+    @ConditionalOnClass(name = "org.springframework.modulith.events.core.EventPublicationRepository")
+    @ConditionalOnBean(EventPublicationRepository.class)
+    @ConditionalOnMissingBean
+    public ModulithPublicationBridge modulithPublicationBridge(
+            EventPublicationRepository repository, InMemoryGraphWriter writer) {
+        return new ModulithPublicationBridge(repository, writer);
     }
 
     @Bean

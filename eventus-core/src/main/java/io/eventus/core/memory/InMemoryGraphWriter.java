@@ -20,6 +20,11 @@ public class InMemoryGraphWriter implements GraphWriter {
         store.publications.addAll(model.publications());
     }
 
+    public void updatePublications(java.util.List<io.eventus.core.model.PublicationRecord> publications) {
+        store.publications.clear();
+        store.publications.addAll(publications);
+    }
+
     @Override
     public void clear() {
         store.clear();
