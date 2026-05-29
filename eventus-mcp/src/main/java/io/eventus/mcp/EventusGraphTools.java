@@ -1,20 +1,23 @@
 package io.eventus.mcp;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.eventus.core.GraphReader;
 import io.eventus.core.model.*;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
-@Service
 public class EventusGraphTools {
 
     private final GraphReader graphReader;
+    private final ObjectMapper objectMapper;
 
-    public EventusGraphTools(GraphReader graphReader) {
+    public EventusGraphTools(GraphReader graphReader, ObjectMapper objectMapper) {
         this.graphReader = graphReader;
+        this.objectMapper = objectMapper;
     }
 
     @Tool(description = """
@@ -23,7 +26,7 @@ public class EventusGraphTools {
             and identify modules in WARNING or ERROR state.
             """)
     public String getModules() {
-        return serializeModules(graphReader.getModules());
+        return toJson(graphReader.getModules().stream().map(this::moduleView).toList());
     }
 
     @Tool(description = """
@@ -32,7 +35,7 @@ public class EventusGraphTools {
             which modules produce them.
             """)
     public String getEvents() {
-        return serializeEvents(graphReader.getEvents());
+        return toJson(graphReader.getEvents().stream().map(this::eventView).toList());
     }
 
     @Tool(description = """
@@ -62,7 +65,7 @@ public class EventusGraphTools {
         List<ModuleNode> consumerModules = graphReader.getModules().stream()
                 .filter(m -> consumers.contains(m.id()))
                 .toList();
-        return serializeModules(consumerModules);
+        return toJson(consumerModules.stream().map(this::moduleView).toList());
     }
 
     @Tool(description = """
@@ -72,7 +75,7 @@ public class EventusGraphTools {
             Use this to diagnose delivery failures and identify which modules are affected.
             """)
     public String getIncompletePublications() {
-        return serializePublications(graphReader.getIncompletePublications());
+        return toJson(graphReader.getIncompletePublications().stream().map(this::publicationView).toList());
     }
 
     @Tool(description = """
@@ -87,7 +90,7 @@ public class EventusGraphTools {
                 .filter(m -> m.name().equalsIgnoreCase(moduleName) || m.id().equalsIgnoreCase(moduleName))
                 .toList();
         if (matched.isEmpty()) {
-            return "{\"error\":\"Module not found: " + escape(moduleName) + "\"}";
+            return toJson(Map.of("error", "Module not found: " + moduleName));
         }
         ModuleNode module = matched.getFirst();
         List<EventEdge> allEdges = graphReader.getEdges().stream()
@@ -105,33 +108,31 @@ public class EventusGraphTools {
                 .distinct()
                 .toList();
 
-        var sb = new StringBuilder();
-        sb.append("{");
-        sb.append("\"module\":").append(serializeModule(module)).append(",");
-        sb.append("\"publishes\":").append(serializeStringList(publishes)).append(",");
-        sb.append("\"listensto\":").append(serializeStringList(listensTo)).append(",");
-        sb.append("\"edges\":[");
-        for (int i = 0; i < allEdges.size(); i++) {
-            if (i > 0) sb.append(",");
-            EventEdge edge = allEdges.get(i);
-            String eventName = eventNameForId(edge.eventId());
-            sb.append("{");
-            sb.append("\"event\":\"").append(escape(eventName)).append("\",");
-            sb.append("\"type\":\"").append(edge.edgeType()).append("\"");
-            if (edge.toModuleId() != null && !edge.toModuleId().isBlank()) {
-                sb.append(",\"to\":\"").append(escape(edge.toModuleId())).append("\"");
-            }
-            if (edge.fromModuleId() != null && !edge.fromModuleId().isBlank()
-                    && !edge.fromModuleId().equals(module.id())) {
-                sb.append(",\"from\":\"").append(escape(edge.fromModuleId())).append("\"");
-            }
-            sb.append("}");
-        }
-        sb.append("]}");
-        return sb.toString();
+        List<Map<String, Object>> edgeViews = allEdges.stream()
+                .map(edge -> {
+                    var m = new java.util.LinkedHashMap<String, Object>();
+                    m.put("event", eventNameForId(edge.eventId()));
+                    m.put("type", edge.edgeType().name());
+                    if (edge.toModuleId() != null && !edge.toModuleId().isBlank()) {
+                        m.put("to", edge.toModuleId());
+                    }
+                    if (edge.fromModuleId() != null && !edge.fromModuleId().isBlank()
+                            && !edge.fromModuleId().equals(module.id())) {
+                        m.put("from", edge.fromModuleId());
+                    }
+                    return (Map<String, Object>) m;
+                })
+                .toList();
+
+        return toJson(Map.of(
+                "module", moduleView(module),
+                "publishes", publishes,
+                "listensto", listensTo,
+                "edges", edgeViews
+        ));
     }
 
-    // --- serialization helpers ---
+    // --- helpers ---
 
     private String eventNameForId(String eventId) {
         if (eventId == null) return "";
@@ -142,65 +143,40 @@ public class EventusGraphTools {
                 .orElseGet(() -> eventId.contains(".") ? eventId.substring(eventId.lastIndexOf('.') + 1) : eventId);
     }
 
-    private static String serializeModules(List<ModuleNode> modules) {
-        if (modules.isEmpty()) return "[]";
-        var sb = new StringBuilder("[");
-        for (int i = 0; i < modules.size(); i++) {
-            if (i > 0) sb.append(",");
-            sb.append(serializeModule(modules.get(i)));
+    private Map<String, Object> moduleView(ModuleNode m) {
+        return Map.of(
+                "id", m.id(),
+                "name", m.name(),
+                "status", m.status().name(),
+                "beanCount", m.beanCount(),
+                "aggregateCount", m.aggregateCount()
+        );
+    }
+
+    private Map<String, Object> eventView(EventNode e) {
+        return Map.of(
+                "id", e.id(),
+                "name", e.name(),
+                "publisherModuleId", e.publisherModuleId()
+        );
+    }
+
+    private Map<String, Object> publicationView(PublicationRecord p) {
+        return Map.of(
+                "id", p.id(),
+                "eventType", p.eventType(),
+                "listenerName", p.listenerName(),
+                "moduleId", p.moduleId(),
+                "status", p.status().name(),
+                "publishedAt", p.publishedAt().toString()
+        );
+    }
+
+    private String toJson(Object value) {
+        try {
+            return objectMapper.writeValueAsString(value);
+        } catch (JsonProcessingException e) {
+            return "{\"error\":\"serialization failed\"}";
         }
-        sb.append("]");
-        return sb.toString();
-    }
-
-    private static String serializeModule(ModuleNode m) {
-        return String.format(
-                "{\"id\":\"%s\",\"name\":\"%s\",\"status\":\"%s\",\"beanCount\":%d,\"aggregateCount\":%d}",
-                escape(m.id()), escape(m.name()), m.status(), m.beanCount(), m.aggregateCount());
-    }
-
-    private static String serializeEvents(List<EventNode> events) {
-        if (events.isEmpty()) return "[]";
-        var sb = new StringBuilder("[");
-        for (int i = 0; i < events.size(); i++) {
-            if (i > 0) sb.append(",");
-            EventNode e = events.get(i);
-            sb.append(String.format(
-                    "{\"id\":\"%s\",\"name\":\"%s\",\"publisherModuleId\":\"%s\"}",
-                    escape(e.id()), escape(e.name()), escape(e.publisherModuleId())));
-        }
-        sb.append("]");
-        return sb.toString();
-    }
-
-    private static String serializePublications(List<PublicationRecord> pubs) {
-        if (pubs.isEmpty()) return "[]";
-        var sb = new StringBuilder("[");
-        for (int i = 0; i < pubs.size(); i++) {
-            if (i > 0) sb.append(",");
-            PublicationRecord p = pubs.get(i);
-            sb.append(String.format(
-                    "{\"id\":\"%s\",\"eventType\":\"%s\",\"listenerName\":\"%s\",\"moduleId\":\"%s\",\"status\":\"%s\",\"publishedAt\":\"%s\"}",
-                    escape(p.id()), escape(p.eventType()), escape(p.listenerName()),
-                    escape(p.moduleId()), p.status(), p.publishedAt()));
-        }
-        sb.append("]");
-        return sb.toString();
-    }
-
-    private static String serializeStringList(List<String> items) {
-        if (items.isEmpty()) return "[]";
-        var sb = new StringBuilder("[");
-        for (int i = 0; i < items.size(); i++) {
-            if (i > 0) sb.append(",");
-            sb.append("\"").append(escape(items.get(i))).append("\"");
-        }
-        sb.append("]");
-        return sb.toString();
-    }
-
-    private static String escape(String s) {
-        if (s == null) return "";
-        return s.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 }

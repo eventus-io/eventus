@@ -8,6 +8,9 @@ import io.eventus.core.model.ModuleNode;
 import io.eventus.core.model.PublicationRecord;
 import org.springframework.data.neo4j.core.Neo4jClient;
 
+import java.util.List;
+import java.util.Map;
+
 public class Neo4jGraphWriter implements GraphWriter {
 
     private final Neo4jClient client;
@@ -19,10 +22,10 @@ public class Neo4jGraphWriter implements GraphWriter {
     @Override
     public void write(GraphModel model) {
         clear();
-        model.modules().forEach(this::mergeModule);
-        model.events().forEach(this::mergeEvent);
-        model.edges().forEach(this::mergeEdge);
-        model.publications().forEach(this::mergePublication);
+        bulkMergeModules(model.modules());
+        bulkMergeEvents(model.events());
+        bulkMergeEdges(model.edges());
+        bulkMergePublications(model.publications());
     }
 
     @Override
@@ -30,58 +33,82 @@ public class Neo4jGraphWriter implements GraphWriter {
         client.query("MATCH (n) DETACH DELETE n").run();
     }
 
-    private void mergeModule(ModuleNode m) {
+    private void bulkMergeModules(List<ModuleNode> modules) {
+        if (modules.isEmpty()) return;
+        List<Map<String, Object>> rows = modules.stream()
+                .map(m -> Map.<String, Object>of(
+                        "id", m.id(),
+                        "name", m.name(),
+                        "beanCount", m.beanCount(),
+                        "aggregateCount", m.aggregateCount(),
+                        "status", m.status().name()))
+                .toList();
         client.query("""
-                MERGE (n:Module {id: $id})
-                SET n.name = $name, n.beanCount = $beanCount,
-                    n.aggregateCount = $aggregateCount, n.status = $status
+                UNWIND $rows AS row
+                MERGE (n:Module {id: row.id})
+                SET n.name = row.name, n.beanCount = row.beanCount,
+                    n.aggregateCount = row.aggregateCount, n.status = row.status
                 """)
-                .bind(m.id()).to("id")
-                .bind(m.name()).to("name")
-                .bind(m.beanCount()).to("beanCount")
-                .bind(m.aggregateCount()).to("aggregateCount")
-                .bind(m.status().name()).to("status")
+                .bind(rows).to("rows")
                 .run();
     }
 
-    private void mergeEvent(EventNode e) {
+    private void bulkMergeEvents(List<EventNode> events) {
+        if (events.isEmpty()) return;
+        List<Map<String, Object>> rows = events.stream()
+                .map(e -> Map.<String, Object>of(
+                        "id", e.id(),
+                        "name", e.name(),
+                        "publisherModuleId", e.publisherModuleId()))
+                .toList();
         client.query("""
-                MERGE (n:DomainEvent {id: $id})
-                SET n.name = $name, n.publisherModuleId = $publisherModuleId
+                UNWIND $rows AS row
+                MERGE (n:DomainEvent {id: row.id})
+                SET n.name = row.name, n.publisherModuleId = row.publisherModuleId
                 """)
-                .bind(e.id()).to("id")
-                .bind(e.name()).to("name")
-                .bind(e.publisherModuleId()).to("publisherModuleId")
+                .bind(rows).to("rows")
                 .run();
     }
 
-    private void mergeEdge(EventEdge e) {
+    private void bulkMergeEdges(List<EventEdge> edges) {
+        if (edges.isEmpty()) return;
+        List<Map<String, Object>> rows = edges.stream()
+                .map(e -> Map.<String, Object>of(
+                        "id", e.id(),
+                        "eventId", e.eventId(),
+                        "fromModuleId", e.fromModuleId() != null ? e.fromModuleId() : "",
+                        "toModuleId", e.toModuleId() != null ? e.toModuleId() : "",
+                        "edgeType", e.edgeType().name()))
+                .toList();
         client.query("""
-                MERGE (r:EventEdge {id: $id})
-                SET r.eventId = $eventId, r.fromModuleId = $fromModuleId,
-                    r.toModuleId = $toModuleId, r.edgeType = $edgeType
+                UNWIND $rows AS row
+                MERGE (r:EventEdge {id: row.id})
+                SET r.eventId = row.eventId, r.fromModuleId = row.fromModuleId,
+                    r.toModuleId = row.toModuleId, r.edgeType = row.edgeType
                 """)
-                .bind(e.id()).to("id")
-                .bind(e.eventId()).to("eventId")
-                .bind(e.fromModuleId()).to("fromModuleId")
-                .bind(e.toModuleId()).to("toModuleId")
-                .bind(e.edgeType().name()).to("edgeType")
+                .bind(rows).to("rows")
                 .run();
     }
 
-    private void mergePublication(PublicationRecord p) {
+    private void bulkMergePublications(List<PublicationRecord> publications) {
+        if (publications.isEmpty()) return;
+        List<Map<String, Object>> rows = publications.stream()
+                .map(p -> Map.<String, Object>of(
+                        "id", p.id(),
+                        "eventType", p.eventType(),
+                        "listenerName", p.listenerName(),
+                        "moduleId", p.moduleId(),
+                        "status", p.status().name(),
+                        "publishedAt", p.publishedAt().toEpochMilli()))
+                .toList();
         client.query("""
-                MERGE (n:Publication {id: $id})
-                SET n.eventType = $eventType, n.listenerName = $listenerName,
-                    n.moduleId = $moduleId, n.status = $status,
-                    n.publishedAt = $publishedAt
+                UNWIND $rows AS row
+                MERGE (n:Publication {id: row.id})
+                SET n.eventType = row.eventType, n.listenerName = row.listenerName,
+                    n.moduleId = row.moduleId, n.status = row.status,
+                    n.publishedAt = row.publishedAt
                 """)
-                .bind(p.id()).to("id")
-                .bind(p.eventType()).to("eventType")
-                .bind(p.listenerName()).to("listenerName")
-                .bind(p.moduleId()).to("moduleId")
-                .bind(p.status().name()).to("status")
-                .bind(p.publishedAt().toEpochMilli()).to("publishedAt")
+                .bind(rows).to("rows")
                 .run();
     }
 }

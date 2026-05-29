@@ -14,7 +14,11 @@ import org.springframework.modulith.core.ApplicationModules;
 import org.springframework.modulith.core.EventType;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class SpringModulithExtractor implements EventGraphExtractor {
 
@@ -61,10 +65,10 @@ public class SpringModulithExtractor implements EventGraphExtractor {
             for (EventType eventType : module.getPublishedEvents()) {
                 String eventId = eventType.getType().getName();
                 model.addEvent(new EventNode(eventId, eventType.getType().getSimpleName(), moduleId));
-                model.addEdge(new EventEdge(UUID.randomUUID().toString(), eventId, moduleId, null, EdgeType.PUBLISHES));
+                model.addEdge(new EventEdge(edgeId(eventId, moduleId, null, EdgeType.PUBLISHES), eventId, moduleId, null, EdgeType.PUBLISHES));
             }
             for (JavaClass eventClass : module.getEventsListenedTo(modules)) {
-                model.addEdge(new EventEdge(UUID.randomUUID().toString(), eventClass.getName(), null, moduleId, EdgeType.LISTENS_TO));
+                model.addEdge(new EventEdge(edgeId(eventClass.getName(), null, moduleId, EdgeType.LISTENS_TO), eventClass.getName(), null, moduleId, EdgeType.LISTENS_TO));
             }
         }
 
@@ -103,9 +107,9 @@ public class SpringModulithExtractor implements EventGraphExtractor {
 
                 if (knownEventIds.add(eventId)) {
                     model.addEvent(new EventNode(eventId, eventType.getSimpleName(), publishingModuleId));
-                    model.addEdge(new EventEdge(UUID.randomUUID().toString(), eventId, publishingModuleId, null, EdgeType.PUBLISHES));
+                    model.addEdge(new EventEdge(edgeId(eventId, publishingModuleId, null, EdgeType.PUBLISHES), eventId, publishingModuleId, null, EdgeType.PUBLISHES));
                 }
-                model.addEdge(new EventEdge(UUID.randomUUID().toString(), eventId, null, listeningModuleId, EdgeType.LISTENS_TO));
+                model.addEdge(new EventEdge(edgeId(eventId, null, listeningModuleId, EdgeType.LISTENS_TO), eventId, null, listeningModuleId, EdgeType.LISTENS_TO));
             }
         }
     }
@@ -116,5 +120,9 @@ public class SpringModulithExtractor implements EventGraphExtractor {
                 .map(Map.Entry::getValue)
                 .findFirst()
                 .orElse(null);
+    }
+
+    private static String edgeId(String eventId, String fromModuleId, String toModuleId, EdgeType type) {
+        return eventId + ":" + type.name() + ":" + (fromModuleId != null ? fromModuleId : "") + ":" + (toModuleId != null ? toModuleId : "");
     }
 }

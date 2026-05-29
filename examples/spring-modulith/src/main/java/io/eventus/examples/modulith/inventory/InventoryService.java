@@ -36,6 +36,10 @@ public class InventoryService {
                     inventory.save(item);
                     events.publishEvent(new StockReserved(event.orderId(), event.isbn(), event.quantity()));
                     log.info("Stock reserved — order={}, isbn={}, qty={}", event.orderId(), event.isbn(), event.quantity());
+                    if (item.getAvailableStock() == 0) {
+                        events.publishEvent(new StockDepleted(event.isbn()));
+                        log.warn("Stock depleted — isbn={}", event.isbn());
+                    }
                 },
                 () -> log.warn("No inventory record for isbn={}", event.isbn())
         );

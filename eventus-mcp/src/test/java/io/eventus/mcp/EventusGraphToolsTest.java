@@ -1,5 +1,6 @@
 package io.eventus.mcp;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.eventus.core.model.*;
 import io.eventus.core.memory.InMemoryGraph;
 import io.eventus.core.memory.InMemoryGraphWriter;
@@ -31,7 +32,7 @@ class EventusGraphToolsTest {
                 "inventory", PublicationStatus.INCOMPLETE, Instant.now()));
         writer.write(model);
 
-        tools = new EventusGraphTools(reader);
+        tools = new EventusGraphTools(reader, new ObjectMapper());
     }
 
     @Test

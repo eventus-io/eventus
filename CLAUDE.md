@@ -6,7 +6,8 @@
 
 Eventus is an open source JVM library that extracts the event and module topology
 from a running application, materialises it as a knowledge graph, and exposes it
-through actuator endpoints, an embedded UI, and an MCP server for LLM queries.
+through actuator endpoints and an MCP server for LLM queries. A standalone React
+dashboard (`ui/`) connects to those endpoints and can be deployed independently.
 
 ## Coordinates
 
@@ -15,16 +16,28 @@ through actuator endpoints, an embedded UI, and an MCP server for LLM queries.
 | Maven group    | io.eventus                    |
 | GitHub         | github.com/rafaelmaia/eventus |
 | License        | Apache 2.0                    |
-| Java           | 21                            |
-| Spring Boot    | 3.x                           |
+| Java           | 25                            |
+| Spring Boot    | 4.0.6                         |
 
 ## Module Structure
 
-| Module            | Purpose                                                   |
-|-------------------|-----------------------------------------------------------|
-| `eventus-core`    | Framework-agnostic interfaces, value objects, in-memory backend |
-| `eventus-spring`  | Spring Modulith extractor + actuator endpoints            |
-| `eventus-generic` | Stub for plain JVM annotation-based extractor (v0.3)     |
+| Module             | Purpose                                                        |
+|--------------------|----------------------------------------------------------------|
+| `eventus-core`     | Framework-agnostic interfaces, value objects, in-memory backend |
+| `eventus-spring`   | Spring Modulith extractor + actuator endpoints + autoconfiguration |
+| `eventus-generic`  | Classpath-scan extractor via `@EventModule`/`@Publishes`/`@Listens` annotations |
+| `eventus-streams`  | Spring Cloud Stream binding extractor                          |
+| `eventus-neo4j`    | Neo4j-backed GraphWriter/GraphReader                           |
+| `eventus-mcp`      | MCP server (Spring AI) exposing graph as LLM tools             |
+
+### Standalone frontend
+
+| Directory | Purpose                                                               |
+|-----------|-----------------------------------------------------------------------|
+| `ui/`     | React + TypeScript + Vite dashboard — standalone, Docker-deployable  |
+
+- `npm run dev` starts the dev server with a proxy to `localhost:8080`
+- `docker build` produces an nginx image; set `EVENTUS_API_URL` at runtime
 
 ## Tagline
 

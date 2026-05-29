@@ -13,7 +13,7 @@
 
   <groupId>io.eventus.examples</groupId>
   <artifactId>spring-modulith-example</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1</version>
   <name>Eventus Example — Spring Modulith Bookstore</name>
   <description>
     Standalone Spring Modulith example showing how Eventus visualises
@@ -24,7 +24,7 @@
   <properties>
     <java.version>25</java.version>
     <spring-modulith.version>2.0.6</spring-modulith.version>
-    <eventus.version>0.1.0-SNAPSHOT</eventus.version>
+    <eventus.version>0.1</eventus.version>
   </properties>
 
   <dependencyManagement>
@@ -77,12 +77,6 @@
       <artifactId>eventus-spring</artifactId>
       <version>${eventus.version}</version>
     </dependency>
-    <dependency>
-      <groupId>io.eventus</groupId>
-      <artifactId>eventus-ui</artifactId>
-      <version>${eventus.version}</version>
-    </dependency>
-
     <!-- Test -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

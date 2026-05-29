@@ -1,3 +1,3 @@
 package io.eventus.examples.modulith.orders;
 
-public enum OrderStatus { PENDING, CONFIRMED, CANCELLED }
+public enum OrderStatus { PENDING, CONFIRMED, CANCELLED, SHIPPED, DELIVERED }

@@ -29,8 +29,10 @@ public class Order {
         this.status = OrderStatus.PENDING;
     }
 
-    public void confirm() { this.status = OrderStatus.CONFIRMED; }
-    public void cancel() { this.status = OrderStatus.CANCELLED; }
+    public void confirm()  { this.status = OrderStatus.CONFIRMED; }
+    public void cancel()   { this.status = OrderStatus.CANCELLED; }
+    public void ship()     { this.status = OrderStatus.SHIPPED; }
+    public void deliver()  { this.status = OrderStatus.DELIVERED; }
 
     public String getId() { return id; }
     public String getIsbn() { return isbn; }

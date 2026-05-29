@@ -1,5 +1,6 @@
 package io.eventus.core.violations;
 
+import io.eventus.core.GraphCacheAware;
 import io.eventus.core.GraphReader;
 import io.eventus.core.model.*;
 
@@ -7,7 +8,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
-public class InMemoryViolationAnalyzer implements ViolationAnalyzer {
+public class InMemoryViolationAnalyzer implements ViolationAnalyzer, GraphCacheAware {
 
     private static final Duration CACHE_DURATION = Duration.ofMinutes(5);
 
@@ -205,6 +206,12 @@ public class InMemoryViolationAnalyzer implements ViolationAnalyzer {
             }
         }
         return violations;
+    }
+
+    @Override
+    public void invalidateCache() {
+        cachedViolations = null;
+        lastAnalyzedAt = 0;
     }
 
     private boolean shouldUseCache() {

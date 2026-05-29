@@ -1,5 +1,6 @@
 package io.eventus.spring.autoconfigure;
 
+import io.eventus.core.GraphCacheAware;
 import io.eventus.core.GraphReader;
 import io.eventus.core.GraphWriter;
 import io.eventus.core.drift.BaselineManager;
@@ -102,8 +103,10 @@ public class EventusAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ImpactAnalyzer impactAnalyzer(GraphReader reader) {
-        return new InMemoryImpactAnalyzer(reader);
+    public ImpactAnalyzer impactAnalyzer(GraphReader reader, InMemoryGraphWriter writer) {
+        InMemoryImpactAnalyzer analyzer = new InMemoryImpactAnalyzer(reader);
+        writer.registerCacheAware(analyzer);
+        return analyzer;
     }
 
     @Bean
@@ -133,8 +136,10 @@ public class EventusAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ViolationAnalyzer violationAnalyzer(GraphReader reader) {
-        return new InMemoryViolationAnalyzer(reader);
+    public ViolationAnalyzer violationAnalyzer(GraphReader reader, InMemoryGraphWriter writer) {
+        InMemoryViolationAnalyzer analyzer = new InMemoryViolationAnalyzer(reader);
+        writer.registerCacheAware(analyzer);
+        return analyzer;
     }
 
     @Bean
@@ -169,7 +174,7 @@ public class EventusAutoConfiguration {
         String[] names = ctx.getBeanNamesForAnnotation(
                 org.springframework.boot.autoconfigure.SpringBootApplication.class);
         if (names.length > 0) {
-            return ctx.getBean(names[0]).getClass();
+            return org.springframework.aop.support.AopUtils.getTargetClass(ctx.getBean(names[0]));
         }
         return Object.class;
     }

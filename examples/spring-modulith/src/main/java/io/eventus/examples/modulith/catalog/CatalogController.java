@@ -1,8 +1,7 @@
 package io.eventus.examples.modulith.catalog;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +18,17 @@ class CatalogController {
     @GetMapping
     List<Book> listBooks() {
         return catalog.findAll();
+    }
+
+    @PostMapping("/{isbn}/publish")
+    ResponseEntity<Void> publish(@PathVariable String isbn) {
+        catalog.publish(isbn);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{isbn}/price")
+    ResponseEntity<Void> updatePrice(@PathVariable String isbn, @RequestParam double price) {
+        catalog.updatePrice(isbn, price);
+        return ResponseEntity.ok().build();
     }
 }

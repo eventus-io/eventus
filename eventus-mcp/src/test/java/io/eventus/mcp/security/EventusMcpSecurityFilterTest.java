@@ -74,4 +74,43 @@ class EventusMcpSecurityFilterTest {
         // shouldNotFilter returns true → chain proceeds, status stays 200
         assertThat(chain.getRequest()).isNotNull();
     }
+
+    @Test
+    void emptyBearerToken_returns401() throws Exception {
+        var request = new MockHttpServletRequest("GET", "/mcp/sse");
+        request.addHeader("Authorization", "Bearer ");
+        var response = new MockHttpServletResponse();
+        var chain = new MockFilterChain();
+
+        filter.doFilter(request, response, chain);
+
+        assertThat(response.getStatus()).isEqualTo(401);
+        assertThat(chain.getRequest()).isNull();
+    }
+
+    @Test
+    void malformedBearerHeader_returns401() throws Exception {
+        var request = new MockHttpServletRequest("GET", "/mcp/sse");
+        request.addHeader("Authorization", "Bearertest-secret");
+        var response = new MockHttpServletResponse();
+        var chain = new MockFilterChain();
+
+        filter.doFilter(request, response, chain);
+
+        assertThat(response.getStatus()).isEqualTo(401);
+        assertThat(chain.getRequest()).isNull();
+    }
+
+    @Test
+    void emptyXEventusKey_returns401() throws Exception {
+        var request = new MockHttpServletRequest("GET", "/mcp/sse");
+        request.addHeader("X-Eventus-Key", "");
+        var response = new MockHttpServletResponse();
+        var chain = new MockFilterChain();
+
+        filter.doFilter(request, response, chain);
+
+        assertThat(response.getStatus()).isEqualTo(401);
+        assertThat(chain.getRequest()).isNull();
+    }
 }

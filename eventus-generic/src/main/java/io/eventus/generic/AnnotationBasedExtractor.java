@@ -30,10 +30,14 @@ public class AnnotationBasedExtractor implements EventGraphExtractor {
 
     @Override
     public GraphModel extract() {
+        if (basePackages.isEmpty()) {
+            return new GraphModel();
+        }
         GraphModel model = new GraphModel();
         Map<String, String> classToModuleId = new HashMap<>();
         Map<String, EventNode> events = new LinkedHashMap<>();
         List<EventEdge> edges = new ArrayList<>();
+        java.util.Set<String> seenEdgeIds = new java.util.HashSet<>();
 
         try (ScanResult scan = new ClassGraph()
                 .acceptPackages(basePackages.toArray(String[]::new))
@@ -59,9 +63,10 @@ public class AnnotationBasedExtractor implements EventGraphExtractor {
                             String eventId = eventType.getName();
                             events.putIfAbsent(eventId,
                                     new EventNode(eventId, eventType.getSimpleName(), moduleId));
-                            edges.add(new EventEdge(
-                                    moduleId + "_publishes_" + eventId,
-                                    eventId, moduleId, null, EdgeType.PUBLISHES));
+                            String edgeId = eventId + ":PUBLISHES:" + moduleId + ":";
+                            if (seenEdgeIds.add(edgeId)) {
+                                edges.add(new EventEdge(edgeId, eventId, moduleId, null, EdgeType.PUBLISHES));
+                            }
                         }
                     }
 
@@ -69,9 +74,10 @@ public class AnnotationBasedExtractor implements EventGraphExtractor {
                     if (listens != null) {
                         for (Class<?> eventType : listens.value()) {
                             String eventId = eventType.getName();
-                            edges.add(new EventEdge(
-                                    moduleId + "_listens_" + eventId,
-                                    eventId, null, moduleId, EdgeType.LISTENS_TO));
+                            String edgeId = eventId + ":LISTENS_TO::" + moduleId;
+                            if (seenEdgeIds.add(edgeId)) {
+                                edges.add(new EventEdge(edgeId, eventId, null, moduleId, EdgeType.LISTENS_TO));
+                            }
                         }
                     }
                 }

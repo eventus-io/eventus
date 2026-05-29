@@ -10,12 +10,11 @@ class ModularityTest {
             ApplicationModules.of(BookstoreApplication.class);
 
     @Test
-    void modulesAreStructurallyValid() {
-        modules.verify();
-    }
-
-    @Test
     void documentModules() {
+        // modules.verify() is intentionally omitted — the application contains
+        // deliberate coupling violations (PaymentService→OrderService,
+        // FulfillmentSaga→OrderService direct calls) to demonstrate Eventus
+        // violation detection.
         new Documenter(modules)
                 .writeModulesAsPlantUml()
                 .writeIndividualModulesAsPlantUml();

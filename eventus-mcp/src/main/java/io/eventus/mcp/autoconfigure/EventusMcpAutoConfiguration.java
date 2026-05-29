@@ -1,5 +1,6 @@
 package io.eventus.mcp.autoconfigure;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.eventus.core.GraphReader;
 import io.eventus.mcp.EventusGraphTools;
 import io.eventus.spring.autoconfigure.EventusAutoConfiguration;
@@ -19,11 +20,17 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties(EventusMcpProperties.class)
 public class EventusMcpAutoConfiguration {
 
+    @Bean(name = "eventusObjectMapper")
+    @ConditionalOnMissingBean(ObjectMapper.class)
+    public ObjectMapper eventusObjectMapper() {
+        return new ObjectMapper();
+    }
+
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnBean(GraphReader.class)
-    public EventusGraphTools eventusGraphTools(GraphReader graphReader) {
-        return new EventusGraphTools(graphReader);
+    public EventusGraphTools eventusGraphTools(GraphReader graphReader, ObjectMapper objectMapper) {
+        return new EventusGraphTools(graphReader, objectMapper);
     }
 
     @Bean(name = "eventusToolCallbackProvider")

@@ -30,13 +30,28 @@ public class OrderService {
         orders.findById(orderId).ifPresent(order -> {
             order.cancel();
             orders.save(order);
-            events.publishEvent(new OrderCancelled(orderId, order.getIsbn(), order.getQuantity(), reason));
+            events.publishEvent(new OrderCancelled(orderId, order.getIsbn(), order.getQuantity(), order.getCustomerId(), reason));
         });
     }
 
     public void confirm(String orderId) {
         orders.findById(orderId).ifPresent(order -> {
             order.confirm();
+            orders.save(order);
+            events.publishEvent(new OrderConfirmed(orderId, order.getCustomerId()));
+        });
+    }
+
+    public void ship(String orderId) {
+        orders.findById(orderId).ifPresent(order -> {
+            order.ship();
+            orders.save(order);
+        });
+    }
+
+    public void deliver(String orderId) {
+        orders.findById(orderId).ifPresent(order -> {
+            order.deliver();
             orders.save(order);
         });
     }

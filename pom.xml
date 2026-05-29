@@ -6,7 +6,7 @@
 
   <groupId>io.eventus</groupId>
   <artifactId>eventus</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1</version>
   <packaging>pom</packaging>
 
   <name>Eventus</name>
@@ -54,7 +54,6 @@
     <module>eventus-generic</module>
     <module>eventus-streams</module>
     <module>eventus-mcp</module>
-    <module>eventus-ui</module>
     <module>eventus-neo4j</module>
   </modules>
 
@@ -124,11 +123,6 @@
       <dependency>
         <groupId>io.eventus</groupId>
         <artifactId>eventus-mcp</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.eventus</groupId>
-        <artifactId>eventus-ui</artifactId>
         <version>${project.version}</version>
       </dependency>
     </dependencies>

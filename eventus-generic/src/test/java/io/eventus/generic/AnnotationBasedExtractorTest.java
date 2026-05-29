@@ -99,4 +99,37 @@ class AnnotationBasedExtractorTest {
         GraphModel graph = new AnnotationBasedExtractor(List.of("io.eventus.generic")).extract();
         assertThat(graph).isNotNull();
     }
+
+    @Test
+    void emptyPackageList_returnsEmptyGraph() {
+        GraphModel graph = new AnnotationBasedExtractor(List.of()).extract();
+        assertThat(graph.modules()).isEmpty();
+        assertThat(graph.events()).isEmpty();
+        assertThat(graph.edges()).isEmpty();
+    }
+
+    @Test
+    void unknownPackage_returnsEmptyGraph() {
+        GraphModel graph = new AnnotationBasedExtractor(List.of("com.nonexistent.pkg")).extract();
+        assertThat(graph.modules()).isEmpty();
+        assertThat(graph.events()).isEmpty();
+    }
+
+    @Test
+    void publisherModuleId_isSetCorrectly() {
+        GraphModel graph = extractor.extract();
+        assertThat(graph.events())
+                .filteredOn(e -> e.name().equals("OrderPlaced"))
+                .extracting(EventNode::publisherModuleId)
+                .containsOnly("orders");
+    }
+
+    @Test
+    void edgeIds_areDeterministicAcrossExtractions() {
+        GraphModel first  = extractor.extract();
+        GraphModel second = extractor.extract();
+        var firstIds  = first.edges().stream().map(EventEdge::id).sorted().toList();
+        var secondIds = second.edges().stream().map(EventEdge::id).sorted().toList();
+        assertThat(firstIds).isEqualTo(secondIds);
+    }
 }
