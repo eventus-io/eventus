@@ -17,13 +17,10 @@ export const SERVICE_PALETTE = [
   '#06b6d4', // cyan
 ];
 
-const INITIAL: Backend[] = [{
-  id: 'local',
-  name: 'local',
-  url: '',
-  color: SERVICE_PALETTE[0],
-  enabled: true,
-}];
+const INITIAL: Backend[] = [
+  { id: 'bookstore', name: 'bookstore', url: '',                      color: SERVICE_PALETTE[0], enabled: true },
+  { id: 'payments',  name: 'payments',  url: 'http://localhost:8081', color: SERVICE_PALETTE[1], enabled: true },
+];
 
 export function loadBackends(): Backend[] {
   try {
