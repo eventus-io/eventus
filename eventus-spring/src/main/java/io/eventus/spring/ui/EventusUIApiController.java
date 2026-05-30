@@ -6,6 +6,7 @@ import io.eventus.core.model.EventNode;
 import io.eventus.core.model.ModuleNode;
 import io.eventus.core.model.PublicationRecord;
 import io.eventus.spring.publications.ModulithPublicationBridge;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/eventus/api")
 public class EventusUIApiController {

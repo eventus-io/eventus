@@ -9,6 +9,7 @@ import io.eventus.core.model.GraphModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/eventus/api/drift")
 public class DriftController {

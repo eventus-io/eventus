@@ -4,6 +4,7 @@ import io.eventus.core.violations.Violation;
 import io.eventus.core.violations.ViolationAnalyzer;
 import io.eventus.core.violations.ViolationSeverity;
 import io.eventus.core.violations.ViolationType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/eventus/api/violations")
 public class ViolationsController {
